@@ -36,6 +36,7 @@ class Job:
     depends_on: str | None = None
     active_power_tokens: int = 8
     output_consumer: str | None = None
+    tile: int = -1
 
 
 @dataclass

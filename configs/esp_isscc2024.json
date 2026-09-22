@@ -31,6 +31,12 @@
     "spad": {"bandwidth_bytes_ns": 64.0, "latency_ns": 3.0, "capacity_bytes": 2097152},
     "l2_flush_ns": 40.0
   },
+  "modules": {
+    "cpu_cluster": {"cores": 4, "tile": 0},
+    "iommu": {"tile": 7, "service": {"bandwidth_bytes_ns": 32.0, "latency_ns": 8.0, "capacity_bytes": null}},
+    "coherence_manager": {"tile": 7, "service": {"bandwidth_bytes_ns": 32.0, "latency_ns": 6.0, "capacity_bytes": null}},
+    "plic": {"tile": 0, "service": {"bandwidth_bytes_ns": 16.0, "latency_ns": 3.0, "capacity_bytes": null}}
+  },
   "dhpm": {
     "total_tokens": 40,
     "vf_points": [[0, 0.15], [4, 0.35], [8, 0.55], [12, 0.72], [16, 0.9], [20, 1.05]]

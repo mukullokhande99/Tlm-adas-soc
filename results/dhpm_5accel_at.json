@@ -7,21 +7,21 @@
     "END_RESP"
   ],
   "scenario": "dhpm_5accel",
-  "makespan_ns": 1103276.5,
-  "throughput_jobs_per_ms": 4.53196,
+  "makespan_ns": 3169911.0,
+  "throughput_jobs_per_ms": 1.57733,
   "jobs": [
     {
       "name": "nvdla",
       "accelerator": "nvdla0",
       "mode": "spad",
       "start_ns": 0,
-      "end_ns": 387134.5,
-      "input_done_ns": 75803.0,
-      "compute_done_ns": 377649.5909090909,
+      "end_ns": 387187.0,
+      "input_done_ns": 75821.0,
+      "compute_done_ns": 377667.5909090909,
       "frequency_ghz": 0.55,
       "tokens": 8,
-      "network_ns": 76061.90909090912,
-      "memory_ns": 9226.0,
+      "network_ns": 76079.90909090912,
+      "memory_ns": 9248.0,
       "compute_ns": 301846.5909090909,
       "dram_bytes": 0,
       "energy_nj": 531249.9999999999
@@ -31,13 +31,13 @@
       "accelerator": "nlp0",
       "mode": "spad",
       "start_ns": 200,
-      "end_ns": 1046852.5,
-      "input_done_ns": 109841.0,
-      "compute_done_ns": 1033136.4545454545,
+      "end_ns": 1424405.0,
+      "input_done_ns": 487295.0,
+      "compute_done_ns": 1410590.4545454546,
       "frequency_ghz": 0.55,
       "tokens": 8,
-      "network_ns": 114131.04545454553,
-      "memory_ns": 9226.0,
+      "network_ns": 114196.04545454541,
+      "memory_ns": 386661.0,
       "compute_ns": 923295.4545454545,
       "dram_bytes": 0,
       "energy_nj": 1107954.5454545454
@@ -47,13 +47,13 @@
       "accelerator": "vision0",
       "mode": "coherent_dma",
       "start_ns": 400,
-      "end_ns": 530942.5,
-      "input_done_ns": 93181.0,
-      "compute_done_ns": 519317.3636363636,
+      "end_ns": 1941367.0,
+      "input_done_ns": 1503419.0,
+      "compute_done_ns": 1929555.3636363635,
       "frequency_ghz": 0.55,
       "tokens": 8,
-      "network_ns": 95162.13636363641,
-      "memory_ns": 9244.0,
+      "network_ns": 95357.13636363647,
+      "memory_ns": 1419405.0,
       "compute_ns": 426136.3636363636,
       "dram_bytes": 0,
       "energy_nj": 511363.6363636363
@@ -63,13 +63,13 @@
       "accelerator": "crypto",
       "mode": "coherent_dma",
       "start_ns": 600,
-      "end_ns": 1103276.5,
-      "input_done_ns": 589821.0,
-      "compute_done_ns": 1044366.4545454546,
+      "end_ns": 2513815.0,
+      "input_done_ns": 2000173.0,
+      "compute_done_ns": 2454718.4545454546,
       "frequency_ghz": 0.55,
       "tokens": 8,
-      "network_ns": 101475.54545454541,
-      "memory_ns": 546655.5,
+      "network_ns": 101670.54545454541,
+      "memory_ns": 1956930.5,
       "compute_ns": 454545.45454545453,
       "dram_bytes": 0,
       "energy_nj": 254545.45454545453
@@ -79,26 +79,252 @@
       "accelerator": "viterbi0",
       "mode": "coherent_dma",
       "start_ns": 800,
-      "end_ns": 715832.5,
-      "input_done_ns": 30305.0,
-      "compute_done_ns": 712123.1818181818,
+      "end_ns": 3169911.0,
+      "input_done_ns": 2484293.0,
+      "compute_done_ns": 3166111.1818181816,
       "frequency_ghz": 0.55,
       "tokens": 8,
-      "network_ns": 28578.318181818235,
-      "memory_ns": 4636.0,
+      "network_ns": 28644.31818181835,
+      "memory_ns": 2458612.0,
       "compute_ns": 681818.1818181818,
       "dram_bytes": 0,
       "energy_nj": 272727.2727272727
     }
   ],
   "at_noc": {
-    "packets": 30,
-    "flits": 134169,
-    "aggregate_link_busy_ns": 402534.0,
+    "packets": 72,
+    "flits": 134227,
+    "aggregate_link_busy_ns": 402786.0,
     "max_virtual_channel_queue_ns": 0.0,
-    "phase_events": 178
+    "phase_events": 478
   },
   "dram_bytes": 0,
+  "explicit_modules": [
+    {
+      "name": "riscv_smp_cluster",
+      "kind": "CPU cluster",
+      "tile": 0,
+      "purpose": "MMIO programming and interrupt consumption",
+      "transactions": 10
+    },
+    {
+      "name": "mesh_noc",
+      "kind": "interconnect",
+      "tile": "6x6",
+      "purpose": "request/response planes, VC arbitration and async crossings",
+      "transactions": 0
+    },
+    {
+      "name": "iommu",
+      "kind": "DMA address translation",
+      "tile": 7,
+      "purpose": "descriptor translation before DMA reads and writes",
+      "transactions": 10
+    },
+    {
+      "name": "coherence_manager",
+      "kind": "coherence directory",
+      "tile": 7,
+      "purpose": "coherent DMA probe and flush ordering",
+      "transactions": 6
+    },
+    {
+      "name": "plic",
+      "kind": "interrupt controller",
+      "tile": 0,
+      "purpose": "accelerator completion interrupt aggregation",
+      "transactions": 5
+    },
+    {
+      "name": "llc_bank_group",
+      "kind": "shared cache",
+      "tile": "configured tiles",
+      "purpose": "queued LLC access path",
+      "transactions": 0
+    },
+    {
+      "name": "scratchpad_group",
+      "kind": "local memory",
+      "tile": "configured tiles",
+      "purpose": "explicit SPAD access path",
+      "transactions": 0
+    },
+    {
+      "name": "dram_controller",
+      "kind": "memory controller",
+      "tile": "off-chip",
+      "purpose": "queued external-memory service",
+      "transactions": 0
+    },
+    {
+      "name": "dhpm",
+      "kind": "power manager",
+      "tile": "global",
+      "purpose": "token allocation and V/F selection",
+      "transactions": 0
+    },
+    {
+      "name": "nvdla0",
+      "kind": "accelerator tile",
+      "tile": 1,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 1
+    },
+    {
+      "name": "nvdla1",
+      "kind": "accelerator tile",
+      "tile": 2,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "fft0",
+      "kind": "accelerator tile",
+      "tile": 3,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "fft1",
+      "kind": "accelerator tile",
+      "tile": 4,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "audio_decode",
+      "kind": "accelerator tile",
+      "tile": 6,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "aes0",
+      "kind": "accelerator tile",
+      "tile": 8,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "aes1",
+      "kind": "accelerator tile",
+      "tile": 9,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "aes2",
+      "kind": "accelerator tile",
+      "tile": 11,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "ad",
+      "kind": "accelerator tile",
+      "tile": 12,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "viterbi0",
+      "kind": "accelerator tile",
+      "tile": 14,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 1
+    },
+    {
+      "name": "viterbi1",
+      "kind": "accelerator tile",
+      "tile": 15,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "popcount0",
+      "kind": "accelerator tile",
+      "tile": 17,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "sha",
+      "kind": "accelerator tile",
+      "tile": 18,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "rsa",
+      "kind": "accelerator tile",
+      "tile": 20,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "gps",
+      "kind": "accelerator tile",
+      "tile": 21,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "vision0",
+      "kind": "accelerator tile",
+      "tile": 23,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 1
+    },
+    {
+      "name": "vision1",
+      "kind": "accelerator tile",
+      "tile": 24,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "nlp0",
+      "kind": "accelerator tile",
+      "tile": 26,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 1
+    },
+    {
+      "name": "nlp1",
+      "kind": "accelerator tile",
+      "tile": 27,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "nlp2",
+      "kind": "accelerator tile",
+      "tile": 29,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "nlp3",
+      "kind": "accelerator tile",
+      "tile": 31,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "matrix",
+      "kind": "accelerator tile",
+      "tile": 32,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 0
+    },
+    {
+      "name": "crypto",
+      "kind": "accelerator tile",
+      "tile": 33,
+      "purpose": "MMIO-configured DMA/compute/interrupt endpoint",
+      "transactions": 1
+    }
+  ],
   "assumption_ledger": [
     "The ISSCC paper publishes topology and aggregate results, not router RTL, exact protocol timing, or full workload traces.",
     "The NoC configuration uses six planes and 16 B/ns link throughput; all router, virtual-channel, FIFO and packet parameters are user-calibration inputs.",
@@ -107,6 +333,7 @@
     "Energy is a relative active-compute proxy, intended for policy ranking only.",
     "AT extension: each transaction records the four TLM non-blocking protocol phases and packet-level router/VC arbitration.",
     "AT extension: flits are serialized analytically within each packet; this is not a flit-by-flit RTL NoC simulation.",
-    "AT extension: asynchronous tile boundaries add a programmable FIFO delay and align to a configurable tile clock period."
+    "AT extension: asynchronous tile boundaries add a programmable FIFO delay and align to a configurable tile clock period.",
+    "Explicit-module extension: CPU cluster, IOMMU, coherence manager, PLIC, memory subsystem, DHPM and accelerator tiles are named transaction-level components with per-module transaction accounting."
   ]
 }

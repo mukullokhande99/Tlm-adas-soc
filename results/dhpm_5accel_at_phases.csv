@@ -4,13 +4,19 @@ time_ns,transaction,phase,location,vc,detail
 2.5,nvdla:mmio,END_REQ,tile1,,MMIO_PROGRAM
 6.5,nvdla:mmio,BEGIN_RESP,tile1,,MMIO_PROGRAM
 9.0,nvdla:mmio,RESP_ROUTER,tile1->tile0,0,plane=0; flits=1
-10.5,nvdla:dma_read,BEGIN_REQ,tile1,,DMA_READ
+10.5,nvdla:iommu_read,BEGIN_REQ,tile1,,IOMMU_TRANSLATE
 10.5,nvdla:mmio,END_RESP,tile0,,MMIO_PROGRAM
-13.0,nvdla:dma_read,REQ_ROUTER,tile1->tile7,0,plane=0; flits=2
-17.0,nvdla:dma_read,REQ_ROUTER,tile7->tile13,0,plane=0; flits=2
-19.5,nvdla:dma_read,END_REQ,tile13,,DMA_READ
+13.0,nvdla:iommu_read,REQ_ROUTER,tile1->tile7,0,plane=0; flits=2
+15.5,nvdla:iommu_read,END_REQ,tile7,,IOMMU_TRANSLATE
+24.5,nvdla:iommu_read,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+27.0,nvdla:iommu_read,RESP_ROUTER,tile7->tile1,0,plane=0; flits=1
+28.5,nvdla:dma_read,BEGIN_REQ,tile1,,DMA_READ
+28.5,nvdla:iommu_read,END_RESP,tile1,,IOMMU_TRANSLATE
+31.0,nvdla:dma_read,REQ_ROUTER,tile1->tile7,1,plane=0; flits=2
+35.0,nvdla:dma_read,REQ_ROUTER,tile7->tile13,0,plane=0; flits=2
+37.5,nvdla:dma_read,END_REQ,tile13,,DMA_READ
 200,nlp:mmio,BEGIN_REQ,tile0,,MMIO_PROGRAM
-201.0,nlp:mmio,REQ_ROUTER,tile0->tile1,1,plane=0; flits=1
+201.0,nlp:mmio,REQ_ROUTER,tile0->tile1,2,plane=0; flits=1
 205.0,nlp:mmio,REQ_ROUTER,tile1->tile2,0,plane=0; flits=1
 209.0,nlp:mmio,REQ_ROUTER,tile2->tile8,0,plane=0; flits=1
 213.0,nlp:mmio,REQ_ROUTER,tile8->tile14,0,plane=0; flits=1
@@ -24,15 +30,16 @@ time_ns,transaction,phase,location,vc,detail
 241.0,nlp:mmio,RESP_ROUTER,tile18->tile12,0,plane=0; flits=1
 245.0,nlp:mmio,RESP_ROUTER,tile12->tile6,0,plane=0; flits=1
 249.0,nlp:mmio,RESP_ROUTER,tile6->tile0,0,plane=0; flits=1
-250.5,nlp:dma_read,BEGIN_REQ,tile26,,DMA_READ
+250.5,nlp:iommu_read,BEGIN_REQ,tile26,,IOMMU_TRANSLATE
 250.5,nlp:mmio,END_RESP,tile0,,MMIO_PROGRAM
-253.0,nlp:dma_read,REQ_ROUTER,tile26->tile27,0,plane=0; flits=2
-257.0,nlp:dma_read,REQ_ROUTER,tile27->tile28,0,plane=0; flits=2
-261.0,nlp:dma_read,REQ_ROUTER,tile28->tile22,0,plane=0; flits=2
-263.5,nlp:dma_read,END_REQ,tile22,,DMA_READ
+253.0,nlp:iommu_read,REQ_ROUTER,tile26->tile25,1,plane=0; flits=2
+257.0,nlp:iommu_read,REQ_ROUTER,tile25->tile19,0,plane=0; flits=2
+261.0,nlp:iommu_read,REQ_ROUTER,tile19->tile13,0,plane=0; flits=2
+265.0,nlp:iommu_read,REQ_ROUTER,tile13->tile7,2,plane=0; flits=2
+267.5,nlp:iommu_read,END_REQ,tile7,,IOMMU_TRANSLATE
 400,vision:mmio,BEGIN_REQ,tile0,,MMIO_PROGRAM
-401.0,vision:mmio,REQ_ROUTER,tile0->tile1,2,plane=0; flits=1
-405.0,vision:mmio,REQ_ROUTER,tile1->tile2,1,plane=0; flits=1
+401.0,vision:mmio,REQ_ROUTER,tile0->tile1,0,plane=1; flits=1
+405.0,vision:mmio,REQ_ROUTER,tile1->tile2,2,plane=0; flits=1
 409.0,vision:mmio,REQ_ROUTER,tile2->tile3,0,plane=0; flits=1
 413.0,vision:mmio,REQ_ROUTER,tile3->tile4,0,plane=0; flits=1
 417.0,vision:mmio,REQ_ROUTER,tile4->tile5,0,plane=0; flits=1
@@ -46,21 +53,22 @@ time_ns,transaction,phase,location,vc,detail
 445.0,vision:mmio,RESP_ROUTER,tile21->tile20,2,plane=0; flits=1
 449.0,vision:mmio,RESP_ROUTER,tile20->tile19,0,plane=0; flits=1
 453.0,vision:mmio,RESP_ROUTER,tile19->tile18,0,plane=0; flits=1
-457.0,vision:mmio,RESP_ROUTER,tile18->tile12,1,plane=0; flits=1
-461.0,vision:mmio,RESP_ROUTER,tile12->tile6,1,plane=0; flits=1
-465.0,vision:mmio,RESP_ROUTER,tile6->tile0,1,plane=0; flits=1
-466.5,vision:dma_read,BEGIN_REQ,tile23,,DMA_READ
+457.0,vision:mmio,RESP_ROUTER,tile18->tile12,2,plane=0; flits=1
+461.0,vision:mmio,RESP_ROUTER,tile12->tile6,2,plane=0; flits=1
+465.0,vision:mmio,RESP_ROUTER,tile6->tile0,2,plane=0; flits=1
+466.5,vision:iommu_read,BEGIN_REQ,tile23,,IOMMU_TRANSLATE
 466.5,vision:mmio,END_RESP,tile0,,MMIO_PROGRAM
-469.0,vision:dma_read,REQ_ROUTER,tile23->tile22,1,plane=0; flits=2
-473.0,vision:dma_read,REQ_ROUTER,tile22->tile21,3,plane=0; flits=2
-477.0,vision:dma_read,REQ_ROUTER,tile21->tile20,3,plane=0; flits=2
-481.0,vision:dma_read,REQ_ROUTER,tile20->tile19,1,plane=0; flits=2
-485.0,vision:dma_read,REQ_ROUTER,tile19->tile25,0,plane=0; flits=2
-487.5,vision:dma_read,END_REQ,tile25,,DMA_READ
+469.0,vision:iommu_read,REQ_ROUTER,tile23->tile22,1,plane=0; flits=2
+473.0,vision:iommu_read,REQ_ROUTER,tile22->tile21,3,plane=0; flits=2
+477.0,vision:iommu_read,REQ_ROUTER,tile21->tile20,3,plane=0; flits=2
+481.0,vision:iommu_read,REQ_ROUTER,tile20->tile19,1,plane=0; flits=2
+485.0,vision:iommu_read,REQ_ROUTER,tile19->tile13,2,plane=0; flits=2
+489.0,vision:iommu_read,REQ_ROUTER,tile13->tile7,0,plane=1; flits=2
+491.5,vision:iommu_read,END_REQ,tile7,,IOMMU_TRANSLATE
 600,crypto:mmio,BEGIN_REQ,tile0,,MMIO_PROGRAM
-601.0,crypto:mmio,REQ_ROUTER,tile0->tile1,3,plane=0; flits=1
-605.0,crypto:mmio,REQ_ROUTER,tile1->tile2,2,plane=0; flits=1
-609.0,crypto:mmio,REQ_ROUTER,tile2->tile3,1,plane=0; flits=1
+601.0,crypto:mmio,REQ_ROUTER,tile0->tile1,2,plane=1; flits=1
+605.0,crypto:mmio,REQ_ROUTER,tile1->tile2,0,plane=1; flits=1
+609.0,crypto:mmio,REQ_ROUTER,tile2->tile3,2,plane=0; flits=1
 613.0,crypto:mmio,REQ_ROUTER,tile3->tile9,0,plane=0; flits=1
 617.0,crypto:mmio,REQ_ROUTER,tile9->tile15,0,plane=0; flits=1
 621.0,crypto:mmio,REQ_ROUTER,tile15->tile21,0,plane=0; flits=1
@@ -72,108 +80,400 @@ time_ns,transaction,phase,location,vc,detail
 641.0,crypto:mmio,RESP_ROUTER,tile32->tile31,0,plane=0; flits=1
 645.0,crypto:mmio,RESP_ROUTER,tile31->tile30,0,plane=0; flits=1
 649.0,crypto:mmio,RESP_ROUTER,tile30->tile24,0,plane=0; flits=1
-653.0,crypto:mmio,RESP_ROUTER,tile24->tile18,1,plane=0; flits=1
-657.0,crypto:mmio,RESP_ROUTER,tile18->tile12,2,plane=0; flits=1
-661.0,crypto:mmio,RESP_ROUTER,tile12->tile6,2,plane=0; flits=1
-665.0,crypto:mmio,RESP_ROUTER,tile6->tile0,2,plane=0; flits=1
-666.5,crypto:dma_read,BEGIN_REQ,tile33,,DMA_READ
+653.0,crypto:mmio,RESP_ROUTER,tile24->tile18,2,plane=0; flits=1
+657.0,crypto:mmio,RESP_ROUTER,tile18->tile12,0,plane=1; flits=1
+661.0,crypto:mmio,RESP_ROUTER,tile12->tile6,0,plane=1; flits=1
+665.0,crypto:mmio,RESP_ROUTER,tile6->tile0,0,plane=1; flits=1
+666.5,crypto:iommu_read,BEGIN_REQ,tile33,,IOMMU_TRANSLATE
 666.5,crypto:mmio,END_RESP,tile0,,MMIO_PROGRAM
-669.0,crypto:dma_read,REQ_ROUTER,tile33->tile32,1,plane=0; flits=2
-673.0,crypto:dma_read,REQ_ROUTER,tile32->tile31,1,plane=0; flits=2
-677.0,crypto:dma_read,REQ_ROUTER,tile31->tile25,0,plane=0; flits=2
-679.5,crypto:dma_read,END_REQ,tile25,,DMA_READ
+669.0,crypto:iommu_read,REQ_ROUTER,tile33->tile32,1,plane=0; flits=2
+673.0,crypto:iommu_read,REQ_ROUTER,tile32->tile31,1,plane=0; flits=2
+677.0,crypto:iommu_read,REQ_ROUTER,tile31->tile25,0,plane=0; flits=2
+681.0,crypto:iommu_read,REQ_ROUTER,tile25->tile19,2,plane=0; flits=2
+685.0,crypto:iommu_read,REQ_ROUTER,tile19->tile13,2,plane=1; flits=2
+689.0,crypto:iommu_read,REQ_ROUTER,tile13->tile7,0,plane=2; flits=2
+691.5,crypto:iommu_read,END_REQ,tile7,,IOMMU_TRANSLATE
 800,viterbi:mmio,BEGIN_REQ,tile0,,MMIO_PROGRAM
-801.0,viterbi:mmio,REQ_ROUTER,tile0->tile1,0,plane=1; flits=1
-805.0,viterbi:mmio,REQ_ROUTER,tile1->tile2,3,plane=0; flits=1
-809.0,viterbi:mmio,REQ_ROUTER,tile2->tile8,1,plane=0; flits=1
-813.0,viterbi:mmio,REQ_ROUTER,tile8->tile14,1,plane=0; flits=1
+801.0,viterbi:mmio,REQ_ROUTER,tile0->tile1,0,plane=2; flits=1
+805.0,viterbi:mmio,REQ_ROUTER,tile1->tile2,2,plane=1; flits=1
+809.0,viterbi:mmio,REQ_ROUTER,tile2->tile8,2,plane=0; flits=1
+813.0,viterbi:mmio,REQ_ROUTER,tile8->tile14,0,plane=1; flits=1
 814.5,viterbi:mmio,END_REQ,tile14,,MMIO_PROGRAM
 818.5,viterbi:mmio,BEGIN_RESP,tile14,,MMIO_PROGRAM
 821.0,viterbi:mmio,RESP_ROUTER,tile14->tile13,0,plane=0; flits=1
 825.0,viterbi:mmio,RESP_ROUTER,tile13->tile12,0,plane=0; flits=1
-829.0,viterbi:mmio,RESP_ROUTER,tile12->tile6,3,plane=0; flits=1
-833.0,viterbi:mmio,RESP_ROUTER,tile6->tile0,3,plane=0; flits=1
-834.5,viterbi:dma_read,BEGIN_REQ,tile14,,DMA_READ
+829.0,viterbi:mmio,RESP_ROUTER,tile12->tile6,2,plane=1; flits=1
+833.0,viterbi:mmio,RESP_ROUTER,tile6->tile0,2,plane=1; flits=1
+834.5,viterbi:iommu_read,BEGIN_REQ,tile14,,IOMMU_TRANSLATE
 834.5,viterbi:mmio,END_RESP,tile0,,MMIO_PROGRAM
-837.0,viterbi:dma_read,REQ_ROUTER,tile14->tile15,0,plane=0; flits=2
-841.0,viterbi:dma_read,REQ_ROUTER,tile15->tile16,0,plane=0; flits=2
-845.0,viterbi:dma_read,REQ_ROUTER,tile16->tile10,0,plane=0; flits=2
-847.5,viterbi:dma_read,END_REQ,tile10,,DMA_READ
-4955.5,viterbi:dma_read,BEGIN_RESP,tile10,,DMA_READ
-4957.0,viterbi:dma_read,RESP_ROUTER,tile10->tile9,0,plane=0; flits=8192
-8214.5,nvdla:dma_read,BEGIN_RESP,tile13,,DMA_READ
-8217.0,nvdla:dma_read,RESP_ROUTER,tile13->tile7,0,plane=0; flits=32768
-8458.5,nlp:dma_read,BEGIN_RESP,tile22,,DMA_READ
-8461.0,nlp:dma_read,RESP_ROUTER,tile22->tile21,0,plane=0; flits=32768
-8691.5,vision:dma_read,BEGIN_RESP,tile25,,DMA_READ
-8693.0,vision:dma_read,RESP_ROUTER,tile25->tile26,0,plane=0; flits=16384
-13407.0,viterbi:dma_read,RESP_ROUTER,tile9->tile8,0,plane=0; flits=8192
-21857.0,viterbi:dma_read,RESP_ROUTER,tile8->tile14,2,plane=0; flits=8192
-25591.0,vision:dma_read,RESP_ROUTER,tile26->tile27,2,plane=0; flits=16384
-30305.0,viterbi:dma_read,END_RESP,tile14,,DMA_READ
-42011.0,nvdla:dma_read,RESP_ROUTER,tile7->tile1,0,plane=0; flits=32768
-42255.0,nlp:dma_read,RESP_ROUTER,tile21->tile20,0,plane=0; flits=32768
-42489.0,vision:dma_read,RESP_ROUTER,tile27->tile28,2,plane=0; flits=16384
-59387.0,vision:dma_read,RESP_ROUTER,tile28->tile29,0,plane=0; flits=16384
-75803.0,nvdla:dma_read,END_RESP,tile1,,DMA_READ
-76049.0,nlp:dma_read,RESP_ROUTER,tile20->tile26,1,plane=0; flits=32768
-76285.0,vision:dma_read,RESP_ROUTER,tile29->tile23,0,plane=0; flits=16384
-93181.0,vision:dma_read,END_RESP,tile23,,DMA_READ
-109841.0,nlp:dma_read,END_RESP,tile26,,DMA_READ
-377649.5909090909,nvdla:dma_write,BEGIN_REQ,tile1,,DMA_WRITE
-377651.0,nvdla:dma_write,REQ_ROUTER,tile1->tile7,1,plane=0; flits=4096
-381877.0,nvdla:dma_write,REQ_ROUTER,tile7->tile13,1,plane=0; flits=4096
-386101.0,nvdla:dma_write,END_REQ,tile13,,DMA_WRITE
-387128.0,nvdla:dma_write,BEGIN_RESP,tile13,,DMA_WRITE
-387129.0,nvdla:dma_write,RESP_ROUTER,tile13->tile7,1,plane=0; flits=1
-387133.0,nvdla:dma_write,RESP_ROUTER,tile7->tile1,1,plane=0; flits=1
-387134.5,nvdla:dma_write,END_RESP,tile1,,DMA_WRITE
-519317.3636363636,vision:dma_write,BEGIN_REQ,tile23,,DMA_WRITE
-519319.0,vision:dma_write,REQ_ROUTER,tile23->tile22,2,plane=0; flits=2048
-521433.0,vision:dma_write,REQ_ROUTER,tile22->tile21,0,plane=1; flits=2048
-523547.0,vision:dma_write,REQ_ROUTER,tile21->tile20,0,plane=1; flits=2048
-525661.0,vision:dma_write,REQ_ROUTER,tile20->tile19,2,plane=0; flits=2048
-527775.0,vision:dma_write,REQ_ROUTER,tile19->tile25,1,plane=0; flits=2048
-529887.0,vision:dma_write,END_REQ,tile25,,DMA_WRITE
-530923.0,vision:dma_write,BEGIN_RESP,tile25,,DMA_WRITE
-530925.0,vision:dma_write,RESP_ROUTER,tile25->tile26,1,plane=0; flits=1
-530929.0,vision:dma_write,RESP_ROUTER,tile26->tile27,3,plane=0; flits=1
-530933.0,vision:dma_write,RESP_ROUTER,tile27->tile28,3,plane=0; flits=1
-530937.0,vision:dma_write,RESP_ROUTER,tile28->tile29,1,plane=0; flits=1
-530941.0,vision:dma_write,RESP_ROUTER,tile29->tile23,1,plane=0; flits=1
-530942.5,vision:dma_write,END_RESP,tile23,,DMA_WRITE
-539127.0,crypto:dma_read,BEGIN_RESP,tile25,,DMA_READ
-539129.0,crypto:dma_read,RESP_ROUTER,tile25->tile26,2,plane=0; flits=16384
-556027.0,crypto:dma_read,RESP_ROUTER,tile26->tile27,0,plane=1; flits=16384
-572925.0,crypto:dma_read,RESP_ROUTER,tile27->tile33,1,plane=0; flits=16384
-589821.0,crypto:dma_read,END_RESP,tile33,,DMA_READ
-712123.1818181818,viterbi:dma_write,BEGIN_REQ,tile14,,DMA_WRITE
-712125.0,viterbi:dma_write,REQ_ROUTER,tile14->tile15,1,plane=0; flits=1024
-713183.0,viterbi:dma_write,REQ_ROUTER,tile15->tile16,1,plane=0; flits=1024
-714241.0,viterbi:dma_write,REQ_ROUTER,tile16->tile10,1,plane=0; flits=1024
-715297.0,viterbi:dma_write,END_REQ,tile10,,DMA_WRITE
-715821.0,viterbi:dma_write,BEGIN_RESP,tile10,,DMA_WRITE
-715823.0,viterbi:dma_write,RESP_ROUTER,tile10->tile9,1,plane=0; flits=1
-715827.0,viterbi:dma_write,RESP_ROUTER,tile9->tile8,1,plane=0; flits=1
-715831.0,viterbi:dma_write,RESP_ROUTER,tile8->tile14,3,plane=0; flits=1
-715832.5,viterbi:dma_write,END_RESP,tile14,,DMA_WRITE
-1033136.4545454545,nlp:dma_write,BEGIN_REQ,tile26,,DMA_WRITE
-1033139.0,nlp:dma_write,REQ_ROUTER,tile26->tile27,1,plane=0; flits=4096
-1037365.0,nlp:dma_write,REQ_ROUTER,tile27->tile28,1,plane=0; flits=4096
-1041591.0,nlp:dma_write,REQ_ROUTER,tile28->tile22,1,plane=0; flits=4096
-1044366.4545454546,crypto:dma_write,BEGIN_REQ,tile33,,DMA_WRITE
-1044369.0,crypto:dma_write,REQ_ROUTER,tile33->tile32,2,plane=0; flits=16384
-1045815.0,nlp:dma_write,END_REQ,tile22,,DMA_WRITE
-1046842.0,nlp:dma_write,BEGIN_RESP,tile22,,DMA_WRITE
-1046843.0,nlp:dma_write,RESP_ROUTER,tile22->tile21,1,plane=0; flits=1
-1046847.0,nlp:dma_write,RESP_ROUTER,tile21->tile20,1,plane=0; flits=1
-1046851.0,nlp:dma_write,RESP_ROUTER,tile20->tile26,2,plane=0; flits=1
-1046852.5,nlp:dma_write,END_RESP,tile26,,DMA_WRITE
-1061267.0,crypto:dma_write,REQ_ROUTER,tile32->tile31,2,plane=0; flits=16384
-1078165.0,crypto:dma_write,REQ_ROUTER,tile31->tile25,1,plane=0; flits=16384
-1095061.0,crypto:dma_write,END_REQ,tile25,,DMA_WRITE
-1103265.0,crypto:dma_write,BEGIN_RESP,tile25,,DMA_WRITE
-1103267.0,crypto:dma_write,RESP_ROUTER,tile25->tile26,3,plane=0; flits=1
-1103271.0,crypto:dma_write,RESP_ROUTER,tile26->tile27,1,plane=1; flits=1
-1103275.0,crypto:dma_write,RESP_ROUTER,tile27->tile33,2,plane=0; flits=1
-1103276.5,crypto:dma_write,END_RESP,tile33,,DMA_WRITE
+837.0,viterbi:iommu_read,REQ_ROUTER,tile14->tile13,1,plane=0; flits=2
+841.0,viterbi:iommu_read,REQ_ROUTER,tile13->tile7,0,plane=3; flits=2
+843.5,viterbi:iommu_read,END_REQ,tile7,,IOMMU_TRANSLATE
+8232.5,nvdla:dma_read,BEGIN_RESP,tile13,,DMA_READ
+8235.0,nvdla:dma_read,RESP_ROUTER,tile13->tile7,0,plane=0; flits=32768
+42029.0,nvdla:dma_read,RESP_ROUTER,tile7->tile1,1,plane=0; flits=32768
+75821.0,nvdla:dma_read,END_RESP,tile1,,DMA_READ
+377667.5909090909,nvdla:iommu_write,BEGIN_REQ,tile1,,IOMMU_TRANSLATE
+377669.0,nvdla:iommu_write,REQ_ROUTER,tile1->tile7,2,plane=0; flits=2
+377671.5,nvdla:iommu_write,END_REQ,tile7,,IOMMU_TRANSLATE
+377680.5,nvdla:iommu_write,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+377683.0,nvdla:iommu_write,RESP_ROUTER,tile7->tile1,2,plane=0; flits=1
+377684.5,nvdla:dma_write,BEGIN_REQ,tile1,,DMA_WRITE
+377684.5,nvdla:iommu_write,END_RESP,tile1,,IOMMU_TRANSLATE
+377687.0,nvdla:dma_write,REQ_ROUTER,tile1->tile7,3,plane=0; flits=4096
+377689.5,nlp:iommu_read,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+377691.0,nlp:iommu_read,RESP_ROUTER,tile7->tile8,0,plane=0; flits=1
+377695.0,nlp:iommu_read,RESP_ROUTER,tile8->tile14,1,plane=0; flits=1
+377699.0,nlp:iommu_read,RESP_ROUTER,tile14->tile20,1,plane=0; flits=1
+377703.0,nlp:iommu_read,RESP_ROUTER,tile20->tile26,1,plane=0; flits=1
+377704.5,nlp:dma_read,BEGIN_REQ,tile26,,DMA_READ
+377704.5,nlp:iommu_read,END_RESP,tile26,,IOMMU_TRANSLATE
+377707.0,nlp:dma_read,REQ_ROUTER,tile26->tile27,0,plane=0; flits=2
+377711.0,nlp:dma_read,REQ_ROUTER,tile27->tile28,0,plane=0; flits=2
+377715.0,nlp:dma_read,REQ_ROUTER,tile28->tile22,0,plane=0; flits=2
+377717.5,nlp:dma_read,END_REQ,tile22,,DMA_READ
+381913.0,nvdla:dma_write,REQ_ROUTER,tile7->tile13,1,plane=0; flits=4096
+385912.5,nlp:dma_read,BEGIN_RESP,tile22,,DMA_READ
+385915.0,nlp:dma_read,RESP_ROUTER,tile22->tile21,0,plane=0; flits=32768
+386137.0,nvdla:dma_write,END_REQ,tile13,,DMA_WRITE
+387164.0,nvdla:dma_write,BEGIN_RESP,tile13,,DMA_WRITE
+387165.0,nvdla:dma_write,RESP_ROUTER,tile13->tile7,1,plane=0; flits=1
+387169.0,nvdla:dma_write,RESP_ROUTER,tile7->tile1,3,plane=0; flits=1
+387170.5,nvdla:dma_write,END_RESP,tile1,,DMA_WRITE
+387170.5,nvdla:irq_raise,BEGIN_REQ,tile1,,IRQ_RAISE
+387173.0,nvdla:irq_raise,REQ_ROUTER,tile1->tile0,1,plane=0; flits=1
+387174.5,nvdla:irq_raise,END_REQ,tile0,,IRQ_RAISE
+387178.5,nvdla:irq_raise,BEGIN_RESP,tile0,,IRQ_RAISE
+387181.0,nvdla:irq_raise,RESP_ROUTER,tile0->tile1,1,plane=0; flits=1
+387182.5,nvdla:irq_deliver,BEGIN_REQ,tile0,,IRQ_DELIVER
+387182.5,nvdla:irq_raise,END_RESP,tile1,,IRQ_RAISE
+387185.0,nvdla:irq_deliver,BEGIN_RESP,tile0,,IRQ_DELIVER
+387185.0,nvdla:irq_deliver,END_REQ,tile0,,IRQ_DELIVER
+387185.0,nvdla:irq_deliver,REQ_LOCAL,tile0,,16 B
+387187.0,nvdla:irq_deliver,END_RESP,tile0,,IRQ_DELIVER
+387187.0,nvdla:irq_deliver,RESP_LOCAL,tile0,,16 B
+419709.0,nlp:dma_read,RESP_ROUTER,tile21->tile20,0,plane=0; flits=32768
+453503.0,nlp:dma_read,RESP_ROUTER,tile20->tile26,2,plane=0; flits=32768
+487295.0,nlp:dma_read,END_RESP,tile26,,DMA_READ
+1410590.4545454546,nlp:iommu_write,BEGIN_REQ,tile26,,IOMMU_TRANSLATE
+1410593.0,nlp:iommu_write,REQ_ROUTER,tile26->tile25,2,plane=0; flits=2
+1410597.0,nlp:iommu_write,REQ_ROUTER,tile25->tile19,1,plane=0; flits=2
+1410601.0,nlp:iommu_write,REQ_ROUTER,tile19->tile13,1,plane=0; flits=2
+1410605.0,nlp:iommu_write,REQ_ROUTER,tile13->tile7,3,plane=0; flits=2
+1410607.5,nlp:iommu_write,END_REQ,tile7,,IOMMU_TRANSLATE
+1410616.5,nlp:iommu_write,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+1410619.0,nlp:iommu_write,RESP_ROUTER,tile7->tile8,1,plane=0; flits=1
+1410623.0,nlp:iommu_write,RESP_ROUTER,tile8->tile14,2,plane=0; flits=1
+1410625.5,vision:iommu_read,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+1410627.0,nlp:iommu_write,RESP_ROUTER,tile14->tile20,2,plane=0; flits=1
+1410627.0,vision:iommu_read,RESP_ROUTER,tile7->tile8,2,plane=0; flits=1
+1410631.0,nlp:iommu_write,RESP_ROUTER,tile20->tile26,3,plane=0; flits=1
+1410631.0,vision:iommu_read,RESP_ROUTER,tile8->tile9,0,plane=0; flits=1
+1410632.5,nlp:dma_write,BEGIN_REQ,tile26,,DMA_WRITE
+1410632.5,nlp:iommu_write,END_RESP,tile26,,IOMMU_TRANSLATE
+1410635.0,nlp:dma_write,REQ_ROUTER,tile26->tile27,1,plane=0; flits=4096
+1410635.0,vision:iommu_read,RESP_ROUTER,tile9->tile10,0,plane=0; flits=1
+1410639.0,vision:iommu_read,RESP_ROUTER,tile10->tile11,0,plane=0; flits=1
+1410643.0,vision:iommu_read,RESP_ROUTER,tile11->tile17,1,plane=0; flits=1
+1410647.0,vision:iommu_read,RESP_ROUTER,tile17->tile23,1,plane=0; flits=1
+1410648.5,vision:coherence,BEGIN_REQ,tile23,,COHERENCE_PROBE
+1410648.5,vision:iommu_read,END_RESP,tile23,,IOMMU_TRANSLATE
+1410651.0,vision:coherence,REQ_ROUTER,tile23->tile22,2,plane=0; flits=2
+1410655.0,vision:coherence,REQ_ROUTER,tile22->tile21,0,plane=1; flits=2
+1410659.0,vision:coherence,REQ_ROUTER,tile21->tile20,0,plane=1; flits=2
+1410663.0,vision:coherence,REQ_ROUTER,tile20->tile19,2,plane=0; flits=2
+1410667.0,vision:coherence,REQ_ROUTER,tile19->tile13,3,plane=0; flits=2
+1410671.0,vision:coherence,REQ_ROUTER,tile13->tile7,1,plane=1; flits=2
+1410673.5,vision:coherence,END_REQ,tile7,,COHERENCE_PROBE
+1410680.5,vision:coherence,BEGIN_RESP,tile7,,COHERENCE_PROBE
+1410683.0,vision:coherence,RESP_ROUTER,tile7->tile8,3,plane=0; flits=1
+1410687.0,vision:coherence,RESP_ROUTER,tile8->tile9,1,plane=0; flits=1
+1410691.0,vision:coherence,RESP_ROUTER,tile9->tile10,1,plane=0; flits=1
+1410695.0,vision:coherence,RESP_ROUTER,tile10->tile11,1,plane=0; flits=1
+1410699.0,vision:coherence,RESP_ROUTER,tile11->tile17,2,plane=0; flits=1
+1410703.0,vision:coherence,RESP_ROUTER,tile17->tile23,2,plane=0; flits=1
+1410704.5,vision:coherence,END_RESP,tile23,,COHERENCE_PROBE
+1410704.5,vision:dma_read,BEGIN_REQ,tile23,,DMA_READ
+1410707.0,vision:dma_read,REQ_ROUTER,tile23->tile22,3,plane=0; flits=2
+1410711.0,vision:dma_read,REQ_ROUTER,tile22->tile21,1,plane=1; flits=2
+1410715.0,vision:dma_read,REQ_ROUTER,tile21->tile20,1,plane=1; flits=2
+1410719.0,vision:dma_read,REQ_ROUTER,tile20->tile19,3,plane=0; flits=2
+1410723.0,vision:dma_read,REQ_ROUTER,tile19->tile25,0,plane=0; flits=2
+1410725.5,vision:dma_read,END_REQ,tile25,,DMA_READ
+1414861.0,nlp:dma_write,REQ_ROUTER,tile27->tile28,1,plane=0; flits=4096
+1418929.5,vision:dma_read,BEGIN_RESP,tile25,,DMA_READ
+1418931.0,vision:dma_read,RESP_ROUTER,tile25->tile26,0,plane=0; flits=16384
+1419087.0,nlp:dma_write,REQ_ROUTER,tile28->tile22,1,plane=0; flits=4096
+1423311.0,nlp:dma_write,END_REQ,tile22,,DMA_WRITE
+1424338.0,nlp:dma_write,BEGIN_RESP,tile22,,DMA_WRITE
+1424339.0,nlp:dma_write,RESP_ROUTER,tile22->tile21,1,plane=0; flits=1
+1424343.0,nlp:dma_write,RESP_ROUTER,tile21->tile20,1,plane=0; flits=1
+1424347.0,nlp:dma_write,RESP_ROUTER,tile20->tile26,0,plane=1; flits=1
+1424348.5,nlp:dma_write,END_RESP,tile26,,DMA_WRITE
+1424348.5,nlp:irq_raise,BEGIN_REQ,tile26,,IRQ_RAISE
+1424351.0,nlp:irq_raise,REQ_ROUTER,tile26->tile25,3,plane=0; flits=1
+1424355.0,nlp:irq_raise,REQ_ROUTER,tile25->tile24,1,plane=0; flits=1
+1424359.0,nlp:irq_raise,REQ_ROUTER,tile24->tile18,1,plane=0; flits=1
+1424363.0,nlp:irq_raise,REQ_ROUTER,tile18->tile12,1,plane=0; flits=1
+1424367.0,nlp:irq_raise,REQ_ROUTER,tile12->tile6,1,plane=0; flits=1
+1424371.0,nlp:irq_raise,REQ_ROUTER,tile6->tile0,1,plane=0; flits=1
+1424372.5,nlp:irq_raise,END_REQ,tile0,,IRQ_RAISE
+1424376.5,nlp:irq_raise,BEGIN_RESP,tile0,,IRQ_RAISE
+1424379.0,nlp:irq_raise,RESP_ROUTER,tile0->tile1,3,plane=0; flits=1
+1424383.0,nlp:irq_raise,RESP_ROUTER,tile1->tile2,1,plane=0; flits=1
+1424387.0,nlp:irq_raise,RESP_ROUTER,tile2->tile8,1,plane=0; flits=1
+1424391.0,nlp:irq_raise,RESP_ROUTER,tile8->tile14,3,plane=0; flits=1
+1424395.0,nlp:irq_raise,RESP_ROUTER,tile14->tile20,3,plane=0; flits=1
+1424399.0,nlp:irq_raise,RESP_ROUTER,tile20->tile26,1,plane=1; flits=1
+1424400.5,nlp:irq_deliver,BEGIN_REQ,tile0,,IRQ_DELIVER
+1424400.5,nlp:irq_raise,END_RESP,tile26,,IRQ_RAISE
+1424403.0,nlp:irq_deliver,BEGIN_RESP,tile0,,IRQ_DELIVER
+1424403.0,nlp:irq_deliver,END_REQ,tile0,,IRQ_DELIVER
+1424403.0,nlp:irq_deliver,REQ_LOCAL,tile0,,16 B
+1424405.0,nlp:irq_deliver,END_RESP,tile0,,IRQ_DELIVER
+1424405.0,nlp:irq_deliver,RESP_LOCAL,tile0,,16 B
+1435829.0,vision:dma_read,RESP_ROUTER,tile26->tile27,2,plane=0; flits=16384
+1452727.0,vision:dma_read,RESP_ROUTER,tile27->tile28,2,plane=0; flits=16384
+1469625.0,vision:dma_read,RESP_ROUTER,tile28->tile29,0,plane=0; flits=16384
+1486523.0,vision:dma_read,RESP_ROUTER,tile29->tile23,0,plane=0; flits=16384
+1503419.0,vision:dma_read,END_RESP,tile23,,DMA_READ
+1929555.3636363635,vision:iommu_write,BEGIN_REQ,tile23,,IOMMU_TRANSLATE
+1929557.0,vision:iommu_write,REQ_ROUTER,tile23->tile22,0,plane=1; flits=2
+1929561.0,vision:iommu_write,REQ_ROUTER,tile22->tile21,2,plane=1; flits=2
+1929565.0,vision:iommu_write,REQ_ROUTER,tile21->tile20,2,plane=1; flits=2
+1929569.0,vision:iommu_write,REQ_ROUTER,tile20->tile19,0,plane=1; flits=2
+1929573.0,vision:iommu_write,REQ_ROUTER,tile19->tile13,0,plane=1; flits=2
+1929577.0,vision:iommu_write,REQ_ROUTER,tile13->tile7,2,plane=1; flits=2
+1929579.5,vision:iommu_write,END_REQ,tile7,,IOMMU_TRANSLATE
+1929588.5,vision:iommu_write,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+1929591.0,vision:iommu_write,RESP_ROUTER,tile7->tile8,0,plane=1; flits=1
+1929595.0,vision:iommu_write,RESP_ROUTER,tile8->tile9,2,plane=0; flits=1
+1929597.5,crypto:iommu_read,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+1929599.0,crypto:iommu_read,RESP_ROUTER,tile7->tile8,2,plane=1; flits=1
+1929599.0,vision:iommu_write,RESP_ROUTER,tile9->tile10,2,plane=0; flits=1
+1929603.0,crypto:iommu_read,RESP_ROUTER,tile8->tile9,0,plane=1; flits=1
+1929603.0,vision:iommu_write,RESP_ROUTER,tile10->tile11,2,plane=0; flits=1
+1929607.0,crypto:iommu_read,RESP_ROUTER,tile9->tile15,1,plane=0; flits=1
+1929607.0,vision:iommu_write,RESP_ROUTER,tile11->tile17,3,plane=0; flits=1
+1929611.0,crypto:iommu_read,RESP_ROUTER,tile15->tile21,1,plane=0; flits=1
+1929611.0,vision:iommu_write,RESP_ROUTER,tile17->tile23,3,plane=0; flits=1
+1929612.5,vision:coherence,BEGIN_REQ,tile23,,COHERENCE_PROBE
+1929612.5,vision:iommu_write,END_RESP,tile23,,IOMMU_TRANSLATE
+1929615.0,crypto:iommu_read,RESP_ROUTER,tile21->tile27,1,plane=0; flits=1
+1929615.0,vision:coherence,REQ_ROUTER,tile23->tile22,1,plane=1; flits=2
+1929619.0,crypto:iommu_read,RESP_ROUTER,tile27->tile33,1,plane=0; flits=1
+1929619.0,vision:coherence,REQ_ROUTER,tile22->tile21,3,plane=1; flits=2
+1929620.5,crypto:coherence,BEGIN_REQ,tile33,,COHERENCE_PROBE
+1929620.5,crypto:iommu_read,END_RESP,tile33,,IOMMU_TRANSLATE
+1929623.0,crypto:coherence,REQ_ROUTER,tile33->tile32,2,plane=0; flits=2
+1929623.0,vision:coherence,REQ_ROUTER,tile21->tile20,3,plane=1; flits=2
+1929627.0,crypto:coherence,REQ_ROUTER,tile32->tile31,2,plane=0; flits=2
+1929627.0,vision:coherence,REQ_ROUTER,tile20->tile19,1,plane=1; flits=2
+1929631.0,crypto:coherence,REQ_ROUTER,tile31->tile25,1,plane=0; flits=2
+1929631.0,vision:coherence,REQ_ROUTER,tile19->tile13,1,plane=1; flits=2
+1929635.0,crypto:coherence,REQ_ROUTER,tile25->tile19,3,plane=0; flits=2
+1929635.0,vision:coherence,REQ_ROUTER,tile13->tile7,3,plane=1; flits=2
+1929637.5,vision:coherence,END_REQ,tile7,,COHERENCE_PROBE
+1929639.0,crypto:coherence,REQ_ROUTER,tile19->tile13,3,plane=1; flits=2
+1929643.0,crypto:coherence,REQ_ROUTER,tile13->tile7,1,plane=2; flits=2
+1929644.5,vision:coherence,BEGIN_RESP,tile7,,COHERENCE_PROBE
+1929645.5,crypto:coherence,END_REQ,tile7,,COHERENCE_PROBE
+1929647.0,vision:coherence,RESP_ROUTER,tile7->tile8,1,plane=1; flits=1
+1929651.0,vision:coherence,RESP_ROUTER,tile8->tile9,3,plane=0; flits=1
+1929652.5,crypto:coherence,BEGIN_RESP,tile7,,COHERENCE_PROBE
+1929655.0,crypto:coherence,RESP_ROUTER,tile7->tile8,3,plane=1; flits=1
+1929655.0,vision:coherence,RESP_ROUTER,tile9->tile10,3,plane=0; flits=1
+1929659.0,crypto:coherence,RESP_ROUTER,tile8->tile9,1,plane=1; flits=1
+1929659.0,vision:coherence,RESP_ROUTER,tile10->tile11,3,plane=0; flits=1
+1929663.0,crypto:coherence,RESP_ROUTER,tile9->tile15,2,plane=0; flits=1
+1929663.0,vision:coherence,RESP_ROUTER,tile11->tile17,0,plane=1; flits=1
+1929667.0,crypto:coherence,RESP_ROUTER,tile15->tile21,2,plane=0; flits=1
+1929667.0,vision:coherence,RESP_ROUTER,tile17->tile23,0,plane=1; flits=1
+1929668.5,vision:coherence,END_RESP,tile23,,COHERENCE_PROBE
+1929668.5,vision:dma_write,BEGIN_REQ,tile23,,DMA_WRITE
+1929671.0,crypto:coherence,RESP_ROUTER,tile21->tile27,2,plane=0; flits=1
+1929671.0,vision:dma_write,REQ_ROUTER,tile23->tile22,2,plane=1; flits=2048
+1929675.0,crypto:coherence,RESP_ROUTER,tile27->tile33,2,plane=0; flits=1
+1929676.5,crypto:coherence,END_RESP,tile33,,COHERENCE_PROBE
+1929676.5,crypto:dma_read,BEGIN_REQ,tile33,,DMA_READ
+1929679.0,crypto:dma_read,REQ_ROUTER,tile33->tile32,3,plane=0; flits=2
+1929683.0,crypto:dma_read,REQ_ROUTER,tile32->tile31,3,plane=0; flits=2
+1929687.0,crypto:dma_read,REQ_ROUTER,tile31->tile25,2,plane=0; flits=2
+1929689.5,crypto:dma_read,END_REQ,tile25,,DMA_READ
+1931785.0,vision:dma_write,REQ_ROUTER,tile22->tile21,0,plane=2; flits=2048
+1933899.0,vision:dma_write,REQ_ROUTER,tile21->tile20,0,plane=2; flits=2048
+1936013.0,vision:dma_write,REQ_ROUTER,tile20->tile19,2,plane=1; flits=2048
+1938127.0,vision:dma_write,REQ_ROUTER,tile19->tile25,1,plane=0; flits=2048
+1940239.0,vision:dma_write,END_REQ,tile25,,DMA_WRITE
+1941275.0,vision:dma_write,BEGIN_RESP,tile25,,DMA_WRITE
+1941277.0,vision:dma_write,RESP_ROUTER,tile25->tile26,1,plane=0; flits=1
+1941281.0,vision:dma_write,RESP_ROUTER,tile26->tile27,3,plane=0; flits=1
+1941285.0,vision:dma_write,RESP_ROUTER,tile27->tile28,3,plane=0; flits=1
+1941289.0,vision:dma_write,RESP_ROUTER,tile28->tile29,1,plane=0; flits=1
+1941293.0,vision:dma_write,RESP_ROUTER,tile29->tile23,1,plane=0; flits=1
+1941294.5,vision:dma_write,END_RESP,tile23,,DMA_WRITE
+1941294.5,vision:irq_raise,BEGIN_REQ,tile23,,IRQ_RAISE
+1941297.0,vision:irq_raise,REQ_ROUTER,tile23->tile22,3,plane=1; flits=1
+1941301.0,vision:irq_raise,REQ_ROUTER,tile22->tile21,1,plane=2; flits=1
+1941305.0,vision:irq_raise,REQ_ROUTER,tile21->tile20,1,plane=2; flits=1
+1941309.0,vision:irq_raise,REQ_ROUTER,tile20->tile19,3,plane=1; flits=1
+1941313.0,vision:irq_raise,REQ_ROUTER,tile19->tile18,1,plane=0; flits=1
+1941317.0,vision:irq_raise,REQ_ROUTER,tile18->tile12,3,plane=0; flits=1
+1941321.0,vision:irq_raise,REQ_ROUTER,tile12->tile6,3,plane=0; flits=1
+1941325.0,vision:irq_raise,REQ_ROUTER,tile6->tile0,3,plane=0; flits=1
+1941326.5,vision:irq_raise,END_REQ,tile0,,IRQ_RAISE
+1941330.5,vision:irq_raise,BEGIN_RESP,tile0,,IRQ_RAISE
+1941333.0,vision:irq_raise,RESP_ROUTER,tile0->tile1,1,plane=1; flits=1
+1941337.0,vision:irq_raise,RESP_ROUTER,tile1->tile2,3,plane=0; flits=1
+1941341.0,vision:irq_raise,RESP_ROUTER,tile2->tile3,1,plane=0; flits=1
+1941345.0,vision:irq_raise,RESP_ROUTER,tile3->tile4,1,plane=0; flits=1
+1941349.0,vision:irq_raise,RESP_ROUTER,tile4->tile5,1,plane=0; flits=1
+1941353.0,vision:irq_raise,RESP_ROUTER,tile5->tile11,1,plane=0; flits=1
+1941357.0,vision:irq_raise,RESP_ROUTER,tile11->tile17,1,plane=1; flits=1
+1941361.0,vision:irq_raise,RESP_ROUTER,tile17->tile23,1,plane=1; flits=1
+1941362.5,vision:irq_deliver,BEGIN_REQ,tile0,,IRQ_DELIVER
+1941362.5,vision:irq_raise,END_RESP,tile23,,IRQ_RAISE
+1941365.0,vision:irq_deliver,BEGIN_RESP,tile0,,IRQ_DELIVER
+1941365.0,vision:irq_deliver,END_REQ,tile0,,IRQ_DELIVER
+1941365.0,vision:irq_deliver,REQ_LOCAL,tile0,,16 B
+1941367.0,vision:irq_deliver,END_RESP,tile0,,IRQ_DELIVER
+1941367.0,vision:irq_deliver,RESP_LOCAL,tile0,,16 B
+1949479.0,crypto:dma_read,BEGIN_RESP,tile25,,DMA_READ
+1949481.0,crypto:dma_read,RESP_ROUTER,tile25->tile26,2,plane=0; flits=16384
+1966379.0,crypto:dma_read,RESP_ROUTER,tile26->tile27,0,plane=1; flits=16384
+1983277.0,crypto:dma_read,RESP_ROUTER,tile27->tile33,3,plane=0; flits=16384
+2000173.0,crypto:dma_read,END_RESP,tile33,,DMA_READ
+2454718.4545454546,crypto:iommu_write,BEGIN_REQ,tile33,,IOMMU_TRANSLATE
+2454721.0,crypto:iommu_write,REQ_ROUTER,tile33->tile32,0,plane=1; flits=2
+2454725.0,crypto:iommu_write,REQ_ROUTER,tile32->tile31,0,plane=1; flits=2
+2454729.0,crypto:iommu_write,REQ_ROUTER,tile31->tile25,3,plane=0; flits=2
+2454733.0,crypto:iommu_write,REQ_ROUTER,tile25->tile19,0,plane=1; flits=2
+2454737.0,crypto:iommu_write,REQ_ROUTER,tile19->tile13,0,plane=2; flits=2
+2454741.0,crypto:iommu_write,REQ_ROUTER,tile13->tile7,2,plane=2; flits=2
+2454743.5,crypto:iommu_write,END_REQ,tile7,,IOMMU_TRANSLATE
+2454752.5,crypto:iommu_write,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+2454755.0,crypto:iommu_write,RESP_ROUTER,tile7->tile8,0,plane=2; flits=1
+2454759.0,crypto:iommu_write,RESP_ROUTER,tile8->tile9,2,plane=1; flits=1
+2454761.5,viterbi:iommu_read,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+2454763.0,crypto:iommu_write,RESP_ROUTER,tile9->tile15,3,plane=0; flits=1
+2454763.0,viterbi:iommu_read,RESP_ROUTER,tile7->tile8,2,plane=2; flits=1
+2454767.0,crypto:iommu_write,RESP_ROUTER,tile15->tile21,3,plane=0; flits=1
+2454767.0,viterbi:iommu_read,RESP_ROUTER,tile8->tile14,1,plane=1; flits=1
+2454768.5,viterbi:coherence,BEGIN_REQ,tile14,,COHERENCE_PROBE
+2454768.5,viterbi:iommu_read,END_RESP,tile14,,IOMMU_TRANSLATE
+2454771.0,crypto:iommu_write,RESP_ROUTER,tile21->tile27,3,plane=0; flits=1
+2454771.0,viterbi:coherence,REQ_ROUTER,tile14->tile13,2,plane=0; flits=2
+2454775.0,crypto:iommu_write,RESP_ROUTER,tile27->tile33,0,plane=1; flits=1
+2454775.0,viterbi:coherence,REQ_ROUTER,tile13->tile7,1,plane=3; flits=2
+2454776.5,crypto:coherence,BEGIN_REQ,tile33,,COHERENCE_PROBE
+2454776.5,crypto:iommu_write,END_RESP,tile33,,IOMMU_TRANSLATE
+2454777.5,viterbi:coherence,END_REQ,tile7,,COHERENCE_PROBE
+2454779.0,crypto:coherence,REQ_ROUTER,tile33->tile32,1,plane=1; flits=2
+2454783.0,crypto:coherence,REQ_ROUTER,tile32->tile31,1,plane=1; flits=2
+2454787.0,crypto:coherence,REQ_ROUTER,tile31->tile25,0,plane=1; flits=2
+2454791.0,crypto:coherence,REQ_ROUTER,tile25->tile19,1,plane=1; flits=2
+2454795.0,crypto:coherence,REQ_ROUTER,tile19->tile13,1,plane=2; flits=2
+2454799.0,crypto:coherence,REQ_ROUTER,tile13->tile7,3,plane=2; flits=2
+2454801.5,crypto:coherence,END_REQ,tile7,,COHERENCE_PROBE
+2454808.5,crypto:coherence,BEGIN_RESP,tile7,,COHERENCE_PROBE
+2454811.0,crypto:coherence,RESP_ROUTER,tile7->tile8,1,plane=2; flits=1
+2454815.0,crypto:coherence,RESP_ROUTER,tile8->tile9,3,plane=1; flits=1
+2454815.5,viterbi:coherence,BEGIN_RESP,tile7,,COHERENCE_PROBE
+2454817.0,viterbi:coherence,RESP_ROUTER,tile7->tile8,3,plane=2; flits=1
+2454819.0,crypto:coherence,RESP_ROUTER,tile9->tile15,0,plane=1; flits=1
+2454821.0,viterbi:coherence,RESP_ROUTER,tile8->tile14,2,plane=1; flits=1
+2454822.5,viterbi:coherence,END_RESP,tile14,,COHERENCE_PROBE
+2454822.5,viterbi:dma_read,BEGIN_REQ,tile14,,DMA_READ
+2454823.0,crypto:coherence,RESP_ROUTER,tile15->tile21,0,plane=1; flits=1
+2454825.0,viterbi:dma_read,REQ_ROUTER,tile14->tile15,0,plane=0; flits=2
+2454827.0,crypto:coherence,RESP_ROUTER,tile21->tile27,0,plane=1; flits=1
+2454829.0,viterbi:dma_read,REQ_ROUTER,tile15->tile16,0,plane=0; flits=2
+2454831.0,crypto:coherence,RESP_ROUTER,tile27->tile33,1,plane=1; flits=1
+2454832.5,crypto:coherence,END_RESP,tile33,,COHERENCE_PROBE
+2454832.5,crypto:dma_write,BEGIN_REQ,tile33,,DMA_WRITE
+2454833.0,viterbi:dma_read,REQ_ROUTER,tile16->tile10,0,plane=0; flits=2
+2454835.0,crypto:dma_write,REQ_ROUTER,tile33->tile32,2,plane=1; flits=16384
+2454835.5,viterbi:dma_read,END_REQ,tile10,,DMA_READ
+2458943.5,viterbi:dma_read,BEGIN_RESP,tile10,,DMA_READ
+2458945.0,viterbi:dma_read,RESP_ROUTER,tile10->tile9,0,plane=0; flits=8192
+2467395.0,viterbi:dma_read,RESP_ROUTER,tile9->tile8,0,plane=0; flits=8192
+2471733.0,crypto:dma_write,REQ_ROUTER,tile32->tile31,2,plane=1; flits=16384
+2475845.0,viterbi:dma_read,RESP_ROUTER,tile8->tile14,3,plane=1; flits=8192
+2484293.0,viterbi:dma_read,END_RESP,tile14,,DMA_READ
+2488631.0,crypto:dma_write,REQ_ROUTER,tile31->tile25,1,plane=1; flits=16384
+2505527.0,crypto:dma_write,END_REQ,tile25,,DMA_WRITE
+2513731.0,crypto:dma_write,BEGIN_RESP,tile25,,DMA_WRITE
+2513733.0,crypto:dma_write,RESP_ROUTER,tile25->tile26,3,plane=0; flits=1
+2513737.0,crypto:dma_write,RESP_ROUTER,tile26->tile27,1,plane=1; flits=1
+2513741.0,crypto:dma_write,RESP_ROUTER,tile27->tile33,2,plane=1; flits=1
+2513742.5,crypto:dma_write,END_RESP,tile33,,DMA_WRITE
+2513742.5,crypto:irq_raise,BEGIN_REQ,tile33,,IRQ_RAISE
+2513745.0,crypto:irq_raise,REQ_ROUTER,tile33->tile32,3,plane=1; flits=1
+2513749.0,crypto:irq_raise,REQ_ROUTER,tile32->tile31,3,plane=1; flits=1
+2513753.0,crypto:irq_raise,REQ_ROUTER,tile31->tile30,1,plane=0; flits=1
+2513757.0,crypto:irq_raise,REQ_ROUTER,tile30->tile24,1,plane=0; flits=1
+2513761.0,crypto:irq_raise,REQ_ROUTER,tile24->tile18,3,plane=0; flits=1
+2513765.0,crypto:irq_raise,REQ_ROUTER,tile18->tile12,1,plane=1; flits=1
+2513769.0,crypto:irq_raise,REQ_ROUTER,tile12->tile6,1,plane=1; flits=1
+2513773.0,crypto:irq_raise,REQ_ROUTER,tile6->tile0,1,plane=1; flits=1
+2513774.5,crypto:irq_raise,END_REQ,tile0,,IRQ_RAISE
+2513778.5,crypto:irq_raise,BEGIN_RESP,tile0,,IRQ_RAISE
+2513781.0,crypto:irq_raise,RESP_ROUTER,tile0->tile1,3,plane=1; flits=1
+2513785.0,crypto:irq_raise,RESP_ROUTER,tile1->tile2,1,plane=1; flits=1
+2513789.0,crypto:irq_raise,RESP_ROUTER,tile2->tile3,3,plane=0; flits=1
+2513793.0,crypto:irq_raise,RESP_ROUTER,tile3->tile9,1,plane=0; flits=1
+2513797.0,crypto:irq_raise,RESP_ROUTER,tile9->tile15,1,plane=1; flits=1
+2513801.0,crypto:irq_raise,RESP_ROUTER,tile15->tile21,1,plane=1; flits=1
+2513805.0,crypto:irq_raise,RESP_ROUTER,tile21->tile27,1,plane=1; flits=1
+2513809.0,crypto:irq_raise,RESP_ROUTER,tile27->tile33,3,plane=1; flits=1
+2513810.5,crypto:irq_deliver,BEGIN_REQ,tile0,,IRQ_DELIVER
+2513810.5,crypto:irq_raise,END_RESP,tile33,,IRQ_RAISE
+2513813.0,crypto:irq_deliver,BEGIN_RESP,tile0,,IRQ_DELIVER
+2513813.0,crypto:irq_deliver,END_REQ,tile0,,IRQ_DELIVER
+2513813.0,crypto:irq_deliver,REQ_LOCAL,tile0,,16 B
+2513815.0,crypto:irq_deliver,END_RESP,tile0,,IRQ_DELIVER
+2513815.0,crypto:irq_deliver,RESP_LOCAL,tile0,,16 B
+3166111.1818181816,viterbi:iommu_write,BEGIN_REQ,tile14,,IOMMU_TRANSLATE
+3166113.0,viterbi:iommu_write,REQ_ROUTER,tile14->tile13,3,plane=0; flits=2
+3166117.0,viterbi:iommu_write,REQ_ROUTER,tile13->tile7,2,plane=3; flits=2
+3166119.5,viterbi:iommu_write,END_REQ,tile7,,IOMMU_TRANSLATE
+3166128.5,viterbi:iommu_write,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+3166131.0,viterbi:iommu_write,RESP_ROUTER,tile7->tile8,0,plane=3; flits=1
+3166135.0,viterbi:iommu_write,RESP_ROUTER,tile8->tile14,0,plane=2; flits=1
+3166136.5,viterbi:coherence,BEGIN_REQ,tile14,,COHERENCE_PROBE
+3166136.5,viterbi:iommu_write,END_RESP,tile14,,IOMMU_TRANSLATE
+3166139.0,viterbi:coherence,REQ_ROUTER,tile14->tile13,0,plane=1; flits=2
+3166143.0,viterbi:coherence,REQ_ROUTER,tile13->tile7,3,plane=3; flits=2
+3166145.5,viterbi:coherence,END_REQ,tile7,,COHERENCE_PROBE
+3166152.5,viterbi:coherence,BEGIN_RESP,tile7,,COHERENCE_PROBE
+3166155.0,viterbi:coherence,RESP_ROUTER,tile7->tile8,1,plane=3; flits=1
+3166159.0,viterbi:coherence,RESP_ROUTER,tile8->tile14,1,plane=2; flits=1
+3166160.5,viterbi:coherence,END_RESP,tile14,,COHERENCE_PROBE
+3166160.5,viterbi:dma_write,BEGIN_REQ,tile14,,DMA_WRITE
+3166163.0,viterbi:dma_write,REQ_ROUTER,tile14->tile15,1,plane=0; flits=1024
+3167221.0,viterbi:dma_write,REQ_ROUTER,tile15->tile16,1,plane=0; flits=1024
+3168279.0,viterbi:dma_write,REQ_ROUTER,tile16->tile10,1,plane=0; flits=1024
+3169335.0,viterbi:dma_write,END_REQ,tile10,,DMA_WRITE
+3169859.0,viterbi:dma_write,BEGIN_RESP,tile10,,DMA_WRITE
+3169861.0,viterbi:dma_write,RESP_ROUTER,tile10->tile9,1,plane=0; flits=1
+3169865.0,viterbi:dma_write,RESP_ROUTER,tile9->tile8,1,plane=0; flits=1
+3169869.0,viterbi:dma_write,RESP_ROUTER,tile8->tile14,2,plane=2; flits=1
+3169870.5,viterbi:dma_write,END_RESP,tile14,,DMA_WRITE
+3169870.5,viterbi:irq_raise,BEGIN_REQ,tile14,,IRQ_RAISE
+3169873.0,viterbi:irq_raise,REQ_ROUTER,tile14->tile13,1,plane=1; flits=1
+3169877.0,viterbi:irq_raise,REQ_ROUTER,tile13->tile12,1,plane=0; flits=1
+3169881.0,viterbi:irq_raise,REQ_ROUTER,tile12->tile6,3,plane=1; flits=1
+3169885.0,viterbi:irq_raise,REQ_ROUTER,tile6->tile0,3,plane=1; flits=1
+3169886.5,viterbi:irq_raise,END_REQ,tile0,,IRQ_RAISE
+3169890.5,viterbi:irq_raise,BEGIN_RESP,tile0,,IRQ_RAISE
+3169893.0,viterbi:irq_raise,RESP_ROUTER,tile0->tile1,1,plane=2; flits=1
+3169897.0,viterbi:irq_raise,RESP_ROUTER,tile1->tile2,3,plane=1; flits=1
+3169901.0,viterbi:irq_raise,RESP_ROUTER,tile2->tile8,3,plane=0; flits=1
+3169905.0,viterbi:irq_raise,RESP_ROUTER,tile8->tile14,3,plane=2; flits=1
+3169906.5,viterbi:irq_deliver,BEGIN_REQ,tile0,,IRQ_DELIVER
+3169906.5,viterbi:irq_raise,END_RESP,tile14,,IRQ_RAISE
+3169909.0,viterbi:irq_deliver,BEGIN_RESP,tile0,,IRQ_DELIVER
+3169909.0,viterbi:irq_deliver,END_REQ,tile0,,IRQ_DELIVER
+3169909.0,viterbi:irq_deliver,REQ_LOCAL,tile0,,16 B
+3169911.0,viterbi:irq_deliver,END_RESP,tile0,,IRQ_DELIVER
+3169911.0,viterbi:irq_deliver,RESP_LOCAL,tile0,,16 B

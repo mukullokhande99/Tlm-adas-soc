@@ -21,7 +21,8 @@ mode reproduces unreleased RTL, OS drivers, or the confidential NoC protocol.
 | Component | Model fidelity |
 | --- | --- |
 | 6x6 mesh NoC / six planes | XY routing, per-link serialization queues, packet-size and hop delays |
-| CPU and accelerator tiles | Transaction initiators/targets; accelerator compute latency at a selected frequency |
+| CPU cluster and 23 accelerator tiles | Explicit named endpoints; MMIO control, abstract compute latency and completion interrupts |
+| IOMMU / coherence manager / PLIC | Explicit AT modules for DMA translation, coherent-DMA probes/flush ordering and interrupt delivery |
 | LLC / DRAM / SPAD | Independent service queues, capacity checks, bandwidth and access latency |
 | DMA modes | Non-coherent DMA, coherent DMA, coherent DMA + L2 flush, SPAD, and direct accelerator streaming |
 | DHPM | Global quantized power tokens, fair token exchange, per-tile V/F lookup approximation |
@@ -53,6 +54,7 @@ Run every supplied experiment:
 ```bash
 python3 experiments/run_all.py
 python3 experiments/run_at_all.py
+python3 experiments/list_workloads.py
 ```
 
 The two SVG visuals are standalone and can be inserted directly into a README,
@@ -66,6 +68,20 @@ without an LLC round trip. The experiments are designed to reproduce the
 **direction** of the paper's Fig. 14.5.5 observations - reduced congestion,
 better throughput with more memory partitions, and streaming benefit - not its
 confidential exact values.
+
+## Workload catalogue
+
+The executable workload cases are documented in [docs/workloads.md](docs/workloads.md).
+They are defined in the configuration scenarios block: baseline, llc_spad,
+direct_stream and dhpm_5accel.
+
+## Explicit SoC modules
+
+The AT engine now instantiates named CPU-cluster, accelerator-tile, IOMMU,
+coherence-manager, PLIC, NoC, LLC, SPAD, DRAM-controller and DHPM modules.
+Each AT report contains an explicit_modules array showing module identity,
+placement/purpose and transaction count. Accelerator datapaths remain
+operation-count timing models; they are not CNN/FFT/crypto RTL implementations.
 
 ## Approximate timing model
 

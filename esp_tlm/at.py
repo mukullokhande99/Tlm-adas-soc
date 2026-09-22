@@ -15,6 +15,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
 from .dhpm import TokenPowerManager
+from .modules import ExplicitSoCModules
 from .resources import QueuedResource
 from .types import AccessMode, Job, JobResult
 
@@ -57,6 +58,10 @@ class ATMeshNoC:
         self.router_resp_ns = at_cfg["router_response_ns"]
         self.async_fifo_ns = at_cfg["async_fifo_ns"]
         self.tile_clock_ns = at_cfg["tile_clock_ns"]
+        self.dma_desc_bytes = at_cfg["dma_desc_bytes"]
+        self.ack_bytes = at_cfg["ack_bytes"]
+        self.mmio_service_ns = at_cfg["mmio_service_ns"]
+        self.l2_flush_ns = 0.0
         self.available: dict[tuple[int, int, int, int], float] = defaultdict(float)
         self.events: list[PhaseEvent] = []
         self.packet_count = self.flit_count = 0
@@ -165,6 +170,7 @@ class ATReport:
     max_vc_queue_ns: float = 0.0
     dram_bytes: int = 0
     assumptions: list[str] = field(default_factory=list)
+    explicit_modules: list[dict] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         return {
@@ -182,6 +188,7 @@ class ATReport:
                 "phase_events": len(self.events),
             },
             "dram_bytes": self.dram_bytes,
+            "explicit_modules": self.explicit_modules,
             "assumption_ledger": self.assumptions,
         }
 
@@ -196,6 +203,7 @@ class ATSoCSimulator:
         self.llc_tiles = cfg["tiles"]["llc_tiles"]
         self.spad_tiles = cfg["tiles"]["spad_tiles"]
         self.noc = ATMeshNoC(cfg["noc"], cfg["at"])
+        self.noc.l2_flush_ns = cfg["memory"]["l2_flush_ns"]
         mem = cfg["memory"]
         self.dram = QueuedResource("dram", **mem["dram"])
         self.llcs = {tile: QueuedResource(f"llc{tile}", **mem["llc"]) for tile in self.llc_tiles}
@@ -203,6 +211,7 @@ class ATSoCSimulator:
         self.dhpm = TokenPowerManager(**cfg["dhpm"])
         self.accel_available = {name: 0.0 for name in self.accel_tiles}
         self.completed: dict[str, JobResult] = {}
+        self.modules = ExplicitSoCModules(cfg, self.noc, self.cpu_tile)
 
     def _active_demands(self, start_ns: float, candidate: Job) -> dict[str, int]:
         demands = {candidate.accelerator: candidate.active_power_tokens}
@@ -212,21 +221,37 @@ class ATSoCSimulator:
         return demands
 
     def _mmio(self, job: Job, earliest: float) -> ATTransactionResult:
-        return self.noc.nb_transport(f"{job.name}:mmio", self.cpu_tile, self.accel_tiles[job.accelerator], 16, 16,
-                                     earliest, None, "MMIO_PROGRAM", self.cfg["at"]["mmio_service_ns"])
+        job.tile = self.accel_tiles[job.accelerator]
+        return self.modules.program_accelerator(job, earliest)
+
+    @staticmethod
+    def _combine(*parts: ATTransactionResult) -> ATTransactionResult:
+        return ATTransactionResult(
+            parts[-1].complete_ns,
+            sum(part.network_ns for part in parts),
+            sum(part.service_ns for part in parts),
+            sum(part.queue_ns for part in parts),
+        )
 
     def _input(self, job: Job, earliest: float) -> tuple[ATTransactionResult, int]:
         accel_tile = self.accel_tiles[job.accelerator]
+        job.tile = accel_tile
         if job.mode == AccessMode.DIRECT and job.depends_on:
             producer = self.completed[job.depends_on]
             src = self.accel_tiles[producer.accelerator]
             return self.noc.nb_transport(f"{job.name}:stream", src, accel_tile, job.input_bytes, self.cfg["at"]["ack_bytes"], earliest, None, "DIRECT_STREAM"), 0
+        translation = self.modules.translate_dma(job, earliest, "read")
+        coherence = None
+        if job.mode in (AccessMode.COHERENT, AccessMode.COHERENT_FLUSH):
+            coherence = self.modules.coherence_probe(job, translation.complete_ns)
+        transaction_start = coherence.complete_ns if coherence else translation.complete_ns
         if job.mode == AccessMode.SPAD:
             if not self.spads:
                 raise ValueError("SPAD mode requested without an enabled SPAD tile")
             target = min(self.spads, key=lambda x: abs(x - accel_tile))
-            return self.noc.nb_transport(f"{job.name}:dma_read", accel_tile, target, self.cfg["at"]["dma_desc_bytes"], job.input_bytes,
-                                         earliest, self.spads[target], "DMA_READ", service_bytes=job.input_bytes), 0
+            result = self.noc.nb_transport(f"{job.name}:dma_read", accel_tile, target, self.cfg["at"]["dma_desc_bytes"], job.input_bytes,
+                                           transaction_start, self.spads[target], "DMA_READ", service_bytes=job.input_bytes)
+            return self._combine(translation, *([coherence] if coherence else []), result), 0
         if not self.llcs:
             raise ValueError("No LLC tile enabled")
         target = min(self.llcs, key=lambda x: abs(x - accel_tile))
@@ -234,23 +259,30 @@ class ATSoCSimulator:
         uses_dram = job.mode in (AccessMode.NON_COHERENT, AccessMode.COHERENT_FLUSH)
         resource = CascadedResource(self.llcs[target], self.dram) if uses_dram else self.llcs[target]
         at_result = self.noc.nb_transport(f"{job.name}:dma_read", accel_tile, target, self.cfg["at"]["dma_desc_bytes"], job.input_bytes,
-                                          earliest, resource, "DMA_READ", extra, job.input_bytes)
-        return at_result, job.input_bytes if uses_dram else 0
+                                          transaction_start, resource, "DMA_READ", extra, job.input_bytes)
+        return self._combine(translation, *([coherence] if coherence else []), at_result), job.input_bytes if uses_dram else 0
 
     def _output(self, job: Job, earliest: float) -> tuple[ATTransactionResult, int]:
         accel_tile = self.accel_tiles[job.accelerator]
+        job.tile = accel_tile
         if job.mode == AccessMode.DIRECT and job.output_consumer:
             return ATTransactionResult(earliest, 0.0, 0.0, 0.0), 0
+        translation = self.modules.translate_dma(job, earliest, "write")
+        coherence = None
+        if job.mode in (AccessMode.COHERENT, AccessMode.COHERENT_FLUSH):
+            coherence = self.modules.coherence_probe(job, translation.complete_ns)
+        transaction_start = coherence.complete_ns if coherence else translation.complete_ns
         if job.mode == AccessMode.SPAD and self.spads:
             target = min(self.spads, key=lambda x: abs(x - accel_tile))
-            return self.noc.nb_transport(f"{job.name}:dma_write", accel_tile, target, job.output_bytes, self.cfg["at"]["ack_bytes"],
-                                         earliest, self.spads[target], "DMA_WRITE"), 0
+            result = self.noc.nb_transport(f"{job.name}:dma_write", accel_tile, target, job.output_bytes, self.cfg["at"]["ack_bytes"],
+                                           transaction_start, self.spads[target], "DMA_WRITE")
+            return self._combine(translation, *([coherence] if coherence else []), result), 0
         target = min(self.llcs, key=lambda x: abs(x - accel_tile))
         uses_dram = job.mode in (AccessMode.NON_COHERENT, AccessMode.COHERENT_FLUSH)
         resource = CascadedResource(self.llcs[target], self.dram) if uses_dram else self.llcs[target]
         result = self.noc.nb_transport(f"{job.name}:dma_write", accel_tile, target, job.output_bytes, self.cfg["at"]["ack_bytes"],
-                                       earliest, resource, "DMA_WRITE")
-        return result, job.output_bytes if uses_dram else 0
+                                       transaction_start, resource, "DMA_WRITE")
+        return self._combine(translation, *([coherence] if coherence else []), result), job.output_bytes if uses_dram else 0
 
     def run(self, scenario: str, jobs: list[Job]) -> ATReport:
         report = ATReport(scenario=scenario)
@@ -268,12 +300,13 @@ class ATSoCSimulator:
             compute_ns = job.ops / (accel["ops_per_cycle"] * freq)
             compute_done = read.complete_ns + compute_ns
             write, dram_out = self._output(job, compute_done)
-            end = write.complete_ns
+            irq = self.modules.interrupt_complete(job, write.complete_ns)
+            end = irq.complete_ns
             self.accel_available[job.accelerator] = end
             result = JobResult(
                 job.name, job.accelerator, job.mode.value, start, end, read.complete_ns, compute_done,
                 freq, tokens, mmio.network_ns + read.network_ns + write.network_ns,
-                mmio.service_ns + read.service_ns + write.service_ns, compute_ns, dram_in + dram_out,
+                mmio.service_ns + read.service_ns + write.service_ns + irq.service_ns, compute_ns, dram_in + dram_out,
                 compute_ns * accel["power_nw_per_token"] * tokens / 1e9,
             )
             self.completed[job.name] = result
@@ -285,10 +318,12 @@ class ATSoCSimulator:
         report.flits = self.noc.flit_count
         report.link_busy_ns = self.noc.total_link_busy_ns
         report.max_vc_queue_ns = self.noc.max_queue_ns
+        report.explicit_modules = self.modules.module_report()
         report.assumptions = self.cfg["assumption_ledger"] + [
             "AT extension: each transaction records the four TLM non-blocking protocol phases and packet-level router/VC arbitration.",
             "AT extension: flits are serialized analytically within each packet; this is not a flit-by-flit RTL NoC simulation.",
-            "AT extension: asynchronous tile boundaries add a programmable FIFO delay and align to a configurable tile clock period."
+            "AT extension: asynchronous tile boundaries add a programmable FIFO delay and align to a configurable tile clock period.",
+            "Explicit-module extension: CPU cluster, IOMMU, coherence manager, PLIC, memory subsystem, DHPM and accelerator tiles are named transaction-level components with per-module transaction accounting."
         ]
         return report
 

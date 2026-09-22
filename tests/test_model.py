@@ -50,6 +50,15 @@ class TestPlatform(unittest.TestCase):
         noc.route("second", "REQ", 0, 1, 4096, 0)
         self.assertGreater(noc.max_queue_ns, 0)
 
+    def test_at_model_has_explicit_control_modules(self):
+        scenario = CFG["scenarios"]["llc_spad"]
+        scoped = {**CFG, "tiles": {**CFG["tiles"], **scenario["tile_override"]}}
+        report = ATSoCSimulator(scoped).run("explicit", parse_jobs(scenario["jobs"]))
+        modules = {module["name"]: module for module in report.explicit_modules}
+        self.assertGreater(modules["iommu"]["transactions"], 0)
+        self.assertGreater(modules["plic"]["transactions"], 0)
+        self.assertGreater(modules["coherence_manager"]["transactions"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()
