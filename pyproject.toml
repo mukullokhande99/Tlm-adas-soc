@@ -1,0 +1,12 @@
+[build-system]
+requires = []
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "esp-tlm-vp"
+version = "0.1.0"
+description = "Loosely timed virtual platform for an ESP-inspired heterogeneous RISC-V SoC"
+requires-python = ">=3.10"
+
+[tool.setuptools]
+packages = ["esp_tlm"]

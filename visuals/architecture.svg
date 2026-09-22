@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="690" viewBox="0 0 1200 690" role="img" aria-labelledby="title desc">
+  <title id="title">ESP-inspired heterogeneous SoC virtual platform architecture</title>
+  <desc id="desc">A six by six mesh connects CPU, accelerator, LLC, scratchpad, and IO tiles. DMA traffic can use LLC, scratchpad, or direct accelerator streaming. DHPM distributes global power tokens to active accelerator tiles.</desc>
+  <defs><style>
+    text{font-family:Arial,sans-serif;fill:#14213d}.small{font-size:13px}.label{font-size:15px;font-weight:600}.title{font-size:27px;font-weight:700}.tile{stroke:#30445f;stroke-width:1.2}.route{fill:none;stroke:#4361ee;stroke-width:3;marker-end:url(#arrow)}.power{fill:none;stroke:#e76f51;stroke-width:3;stroke-dasharray:8 6;marker-end:url(#arrowPower)}
+  </style><marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6z" fill="#4361ee"/></marker><marker id="arrowPower" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><path d="M0,0 L10,3 L0,6z" fill="#e76f51"/></marker></defs>
+  <rect width="1200" height="690" fill="white"/>
+  <text x="55" y="48" class="title">ESP-inspired 6×6 heterogeneous SoC TLM virtual platform</text>
+  <text x="55" y="74" class="small">Loosely timed model of transactions, contention, memory placement, and distributed power management</text>
+  <g transform="translate(58,116)">
+    <text x="0" y="-18" class="label">Six-plane mesh NoC</text>
+    <g stroke="#b8c4d4" stroke-width="2">
+      <path d="M42 42H522M42 122H522M42 202H522M42 282H522M42 362H522M42 442H522"/>
+      <path d="M42 42V442M138 42V442M234 42V442M330 42V442M426 42V442M522 42V442"/>
+    </g>
+    <g class="tile">
+      <rect x="11" y="11" width="62" height="62" rx="7" fill="#cfe8ff"/><rect x="491" y="11" width="62" height="62" rx="7" fill="#cfe8ff"/><rect x="11" y="411" width="62" height="62" rx="7" fill="#cfe8ff"/><rect x="491" y="411" width="62" height="62" rx="7" fill="#cfe8ff"/>
+      <rect x="107" y="91" width="62" height="62" rx="7" fill="#d8f3dc"/><rect x="395" y="91" width="62" height="62" rx="7" fill="#d8f3dc"/><rect x="107" y="331" width="62" height="62" rx="7" fill="#d8f3dc"/><rect x="395" y="331" width="62" height="62" rx="7" fill="#d8f3dc"/>
+      <rect x="203" y="171" width="62" height="62" rx="7" fill="#fff2b3"/><rect x="299" y="171" width="62" height="62" rx="7" fill="#fff2b3"/><rect x="203" y="251" width="62" height="62" rx="7" fill="#fff2b3"/><rect x="299" y="251" width="62" height="62" rx="7" fill="#fff2b3"/>
+    </g>
+    <g fill="#5e7184"><rect x="107" y="11" width="62" height="62" rx="7"/><rect x="203" y="11" width="62" height="62" rx="7"/><rect x="299" y="11" width="62" height="62" rx="7"/><rect x="395" y="11" width="62" height="62" rx="7"/><rect x="11" y="91" width="62" height="62" rx="7"/><rect x="203" y="91" width="62" height="62" rx="7"/><rect x="299" y="91" width="62" height="62" rx="7"/><rect x="491" y="91" width="62" height="62" rx="7"/><rect x="11" y="171" width="62" height="62" rx="7"/><rect x="107" y="171" width="62" height="62" rx="7"/><rect x="395" y="171" width="62" height="62" rx="7"/><rect x="491" y="171" width="62" height="62" rx="7"/><rect x="11" y="251" width="62" height="62" rx="7"/><rect x="107" y="251" width="62" height="62" rx="7"/><rect x="395" y="251" width="62" height="62" rx="7"/><rect x="491" y="251" width="62" height="62" rx="7"/><rect x="11" y="331" width="62" height="62" rx="7"/><rect x="203" y="331" width="62" height="62" rx="7"/><rect x="299" y="331" width="62" height="62" rx="7"/><rect x="491" y="331" width="62" height="62" rx="7"/><rect x="107" y="411" width="62" height="62" rx="7"/><rect x="203" y="411" width="62" height="62" rx="7"/><rect x="299" y="411" width="62" height="62" rx="7"/><rect x="395" y="411" width="62" height="62" rx="7"/></g>
+    <g text-anchor="middle" class="small"><text x="42" y="48">CPU</text><text x="522" y="48">CPU</text><text x="42" y="448">CPU</text><text x="522" y="448">CPU</text><text x="138" y="128">LLC</text><text x="426" y="128">LLC</text><text x="138" y="368">LLC</text><text x="426" y="368">LLC</text><text x="234" y="208">SPAD</text><text x="330" y="208">SPAD</text><text x="234" y="288">SPAD</text><text x="330" y="288">SPAD</text></g>
+    <text x="282" y="128" class="small" fill="white">Accelerator tiles</text>
+  </g>
+  <g transform="translate(675,126)">
+    <rect x="0" y="0" width="430" height="112" rx="12" fill="#f1f5ff" stroke="#4361ee"/>
+    <text x="22" y="34" class="label">Data orchestration at runtime</text><text x="22" y="62" class="small">non-coherent DMA · coherent DMA · L2 flush</text><text x="22" y="86" class="small">software-managed SPAD · accelerator-to-accelerator stream</text>
+    <rect x="0" y="172" width="430" height="138" rx="12" fill="#fff5ef" stroke="#e76f51"/>
+    <text x="22" y="206" class="label">Distributed hardware power management</text><text x="22" y="234" class="small">Global power budget → quantized tokens → fair token exchange</text><text x="22" y="260" class="small">Per-tile V/F lookup → accelerator compute latency and energy proxy</text><text x="22" y="286" class="small">Configurable token budget and V/F table in the model</text>
+    <rect x="0" y="370" width="430" height="90" rx="12" fill="#f3f7f9" stroke="#5e7184"/>
+    <text x="22" y="404" class="label">Outputs</text><text x="22" y="432" class="small">makespan · throughput · DRAM bytes · NoC traffic · job trace · energy proxy</text>
+  </g>
+  <path d="M610 280 C650 280 650 182 675 182" class="route"/><text x="614" y="218" class="small">DMA transactions</text>
+  <path d="M610 378 C650 378 650 366 675 366" class="power"/><text x="614" y="348" class="small">token / V-F control</text>
+  <g transform="translate(60,624)" class="small"><rect x="0" y="-13" width="18" height="18" fill="#cfe8ff"/><text x="25" y="1">CPU</text><rect x="90" y="-13" width="18" height="18" fill="#d8f3dc"/><text x="115" y="1">LLC</text><rect x="180" y="-13" width="18" height="18" fill="#fff2b3"/><text x="205" y="1">SPAD</text><rect x="285" y="-13" width="18" height="18" fill="#5e7184"/><text x="310" y="1">Accelerator / IO</text></g>
+</svg>

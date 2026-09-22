@@ -1,0 +1,5 @@
+__pycache__/
+*.py[cod]
+.package/
+github_upload/
+ESP_TLM_Virtual_Platform.zip

@@ -1,0 +1,109 @@
+{
+  "noc": {"rows": 6, "cols": 6, "planes": 6, "hop_ns": 1.0, "bytes_per_ns": 16.0},
+  "at": {
+    "virtual_channels": 4,
+    "vc_buffer_flits": 16,
+    "flit_bytes": 16,
+    "router_request_ns": 0.50,
+    "router_response_ns": 0.50,
+    "async_fifo_ns": 1.00,
+    "tile_clock_ns": 2.00,
+    "dma_desc_bytes": 32,
+    "ack_bytes": 16,
+    "mmio_service_ns": 4.00
+  },
+  "tiles": {
+    "cpu_tiles": [0, 5, 30, 35],
+    "llc_tiles": [7, 10, 25, 28],
+    "spad_tiles": [13, 16, 19, 22],
+    "accelerator_tiles": {
+      "nvdla0": 1, "nvdla1": 2, "fft0": 3, "fft1": 4,
+      "audio_decode": 6, "aes0": 8, "aes1": 9, "aes2": 11,
+      "ad": 12, "viterbi0": 14, "viterbi1": 15, "popcount0": 17,
+      "sha": 18, "rsa": 20, "gps": 21, "vision0": 23,
+      "vision1": 24, "nlp0": 26, "nlp1": 27, "nlp2": 29,
+      "nlp3": 31, "matrix": 32, "crypto": 33
+    }
+  },
+  "memory": {
+    "dram": {"bandwidth_bytes_ns": 8.0, "latency_ns": 120.0, "capacity_bytes": null},
+    "llc": {"bandwidth_bytes_ns": 32.0, "latency_ns": 12.0, "capacity_bytes": 8388608},
+    "spad": {"bandwidth_bytes_ns": 64.0, "latency_ns": 3.0, "capacity_bytes": 2097152},
+    "l2_flush_ns": 40.0
+  },
+  "dhpm": {
+    "total_tokens": 40,
+    "vf_points": [[0, 0.15], [4, 0.35], [8, 0.55], [12, 0.72], [16, 0.9], [20, 1.05]]
+  },
+  "accelerators": {
+    "nvdla0": {"ops_per_cycle": 512, "power_tokens": 16, "power_nw_per_token": 220000000},
+    "nvdla1": {"ops_per_cycle": 512, "power_tokens": 16, "power_nw_per_token": 220000000},
+    "fft0": {"ops_per_cycle": 64, "power_tokens": 8, "power_nw_per_token": 80000000},
+    "fft1": {"ops_per_cycle": 64, "power_tokens": 8, "power_nw_per_token": 80000000},
+    "audio_decode": {"ops_per_cycle": 32, "power_tokens": 8, "power_nw_per_token": 60000000},
+    "aes0": {"ops_per_cycle": 32, "power_tokens": 6, "power_nw_per_token": 55000000},
+    "aes1": {"ops_per_cycle": 32, "power_tokens": 6, "power_nw_per_token": 55000000},
+    "aes2": {"ops_per_cycle": 32, "power_tokens": 6, "power_nw_per_token": 55000000},
+    "ad": {"ops_per_cycle": 16, "power_tokens": 5, "power_nw_per_token": 45000000},
+    "viterbi0": {"ops_per_cycle": 32, "power_tokens": 6, "power_nw_per_token": 50000000},
+    "viterbi1": {"ops_per_cycle": 32, "power_tokens": 6, "power_nw_per_token": 50000000},
+    "popcount0": {"ops_per_cycle": 64, "power_tokens": 4, "power_nw_per_token": 25000000},
+    "sha": {"ops_per_cycle": 32, "power_tokens": 6, "power_nw_per_token": 55000000},
+    "rsa": {"ops_per_cycle": 16, "power_tokens": 8, "power_nw_per_token": 90000000},
+    "gps": {"ops_per_cycle": 32, "power_tokens": 6, "power_nw_per_token": 55000000},
+    "vision0": {"ops_per_cycle": 128, "power_tokens": 12, "power_nw_per_token": 150000000},
+    "vision1": {"ops_per_cycle": 128, "power_tokens": 12, "power_nw_per_token": 150000000},
+    "nlp0": {"ops_per_cycle": 128, "power_tokens": 12, "power_nw_per_token": 150000000},
+    "nlp1": {"ops_per_cycle": 128, "power_tokens": 12, "power_nw_per_token": 150000000},
+    "nlp2": {"ops_per_cycle": 128, "power_tokens": 12, "power_nw_per_token": 150000000},
+    "nlp3": {"ops_per_cycle": 128, "power_tokens": 12, "power_nw_per_token": 150000000},
+    "matrix": {"ops_per_cycle": 128, "power_tokens": 12, "power_nw_per_token": 130000000},
+    "crypto": {"ops_per_cycle": 64, "power_tokens": 8, "power_nw_per_token": 70000000}
+  },
+  "assumption_ledger": [
+    "The ISSCC paper publishes topology and aggregate results, not router RTL, exact protocol timing, or full workload traces.",
+    "The NoC configuration uses six planes and 16 B/ns link throughput; all router, virtual-channel, FIFO and packet parameters are user-calibration inputs.",
+    "DRAM, LLC, and SPAD timing are abstract service queues, not cache-coherence or DRAM-controller functional models.",
+    "DHPM uses a fair discrete-token allocator and an illustrative V/F lookup table; it is not a transistor-level LDO/TRO model.",
+    "Energy is a relative active-compute proxy, intended for policy ranking only."
+  ],
+  "scenarios": {
+    "baseline": {
+      "tile_override": {"llc_tiles": [7], "spad_tiles": []},
+      "jobs": [
+        {"name": "vision", "accelerator": "nvdla0", "release_ns": 0, "input_bytes": 2097152, "output_bytes": 262144, "ops": 50000000, "mode": "non_coherent_dma"},
+        {"name": "nlp", "accelerator": "nlp0", "release_ns": 0, "input_bytes": 1572864, "output_bytes": 131072, "ops": 35000000, "mode": "non_coherent_dma"},
+        {"name": "navigation", "accelerator": "gps", "release_ns": 0, "input_bytes": 262144, "output_bytes": 32768, "ops": 4000000, "mode": "non_coherent_dma"},
+        {"name": "secure", "accelerator": "aes0", "release_ns": 0, "input_bytes": 524288, "output_bytes": 524288, "ops": 8000000, "mode": "non_coherent_dma"},
+        {"name": "analytics", "accelerator": "ad", "release_ns": 0, "input_bytes": 1048576, "output_bytes": 65536, "ops": 9000000, "mode": "non_coherent_dma"}
+      ]
+    },
+    "llc_spad": {
+      "tile_override": {"llc_tiles": [7, 10, 25], "spad_tiles": [13, 16, 19, 22]},
+      "jobs": [
+        {"name": "vision", "accelerator": "nvdla0", "release_ns": 0, "input_bytes": 1048576, "output_bytes": 262144, "ops": 50000000, "mode": "spad"},
+        {"name": "nlp", "accelerator": "nlp0", "release_ns": 0, "input_bytes": 1048576, "output_bytes": 131072, "ops": 35000000, "mode": "spad"},
+        {"name": "navigation", "accelerator": "gps", "release_ns": 0, "input_bytes": 262144, "output_bytes": 32768, "ops": 4000000, "mode": "coherent_dma"},
+        {"name": "secure", "accelerator": "aes0", "release_ns": 0, "input_bytes": 524288, "output_bytes": 524288, "ops": 8000000, "mode": "spad"},
+        {"name": "analytics", "accelerator": "ad", "release_ns": 0, "input_bytes": 1048576, "output_bytes": 65536, "ops": 9000000, "mode": "coherent_dma_l2_flush"}
+      ]
+    },
+    "direct_stream": {
+      "tile_override": {"llc_tiles": [7, 10, 25], "spad_tiles": [13, 16, 19, 22]},
+      "jobs": [
+        {"name": "audio_decode", "accelerator": "audio_decode", "release_ns": 0, "input_bytes": 524288, "output_bytes": 262144, "ops": 6000000, "mode": "direct_stream", "output_consumer": "fft"},
+        {"name": "fft", "accelerator": "fft0", "release_ns": 0, "input_bytes": 262144, "output_bytes": 65536, "ops": 12000000, "mode": "direct_stream", "depends_on": "audio_decode"}
+      ]
+    },
+    "dhpm_5accel": {
+      "tile_override": {"llc_tiles": [7, 10, 25], "spad_tiles": [13, 16, 19, 22]},
+      "jobs": [
+        {"name": "nvdla", "accelerator": "nvdla0", "release_ns": 0, "input_bytes": 524288, "output_bytes": 65536, "ops": 85000000, "mode": "spad"},
+        {"name": "nlp", "accelerator": "nlp0", "release_ns": 200, "input_bytes": 524288, "output_bytes": 65536, "ops": 65000000, "mode": "spad"},
+        {"name": "vision", "accelerator": "vision0", "release_ns": 400, "input_bytes": 262144, "output_bytes": 32768, "ops": 30000000, "mode": "coherent_dma"},
+        {"name": "crypto", "accelerator": "crypto", "release_ns": 600, "input_bytes": 262144, "output_bytes": 262144, "ops": 16000000, "mode": "coherent_dma"},
+        {"name": "viterbi", "accelerator": "viterbi0", "release_ns": 800, "input_bytes": 131072, "output_bytes": 16384, "ops": 12000000, "mode": "coherent_dma"}
+      ]
+    }
+  }
+}

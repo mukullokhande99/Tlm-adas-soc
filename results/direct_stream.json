@@ -1,0 +1,54 @@
+{
+  "scenario": "direct_stream",
+  "makespan_ns": 843643.182,
+  "throughput_jobs_per_ms": 2.37067,
+  "jobs": [
+    {
+      "name": "audio_decode",
+      "accelerator": "audio_decode",
+      "mode": "direct_stream",
+      "start_ns": 0,
+      "end_ns": 422843.0909090909,
+      "input_done_ns": 81934.0,
+      "compute_done_ns": 422843.0909090909,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 65538.0,
+      "memory_ns": 16396.0,
+      "compute_ns": 340909.0909090909,
+      "dram_bytes": 0,
+      "energy_nj": 163636.36363636362
+    },
+    {
+      "name": "fft",
+      "accelerator": "fft0",
+      "mode": "direct_stream",
+      "start_ns": 422843.0909090909,
+      "end_ns": 843643.1818181818,
+      "input_done_ns": 488383.0909090909,
+      "compute_done_ns": 829292.1818181818,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 77831.0,
+      "memory_ns": 2060.0,
+      "compute_ns": 340909.0909090909,
+      "dram_bytes": 0,
+      "energy_nj": 218181.81818181815
+    }
+  ],
+  "noc": {
+    "packets": 4,
+    "bytes": 1376256,
+    "aggregate_link_busy_ns": 143360.0,
+    "max_link_queue_wait_ns": 0.0
+  },
+  "dram_bytes": 0,
+  "estimated_compute_energy_nj": 381818.182,
+  "assumption_ledger": [
+    "The ISSCC paper publishes topology and aggregate results, not router RTL, exact protocol timing, or full workload traces.",
+    "One NoC hop is modelled as a 1 ns pipeline delay and each of six planes has 16 B/ns link throughput; both are user-calibration inputs.",
+    "DRAM, LLC, and SPAD timing are abstract service queues, not cache-coherence or DRAM-controller functional models.",
+    "DHPM uses a fair discrete-token allocator and an illustrative V/F lookup table; it is not a transistor-level LDO/TRO model.",
+    "Energy is a relative active-compute proxy, intended for policy ranking only."
+  ]
+}

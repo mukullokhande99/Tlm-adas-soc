@@ -1,0 +1,64 @@
+{
+  "model_fidelity": "approximately_timed",
+  "protocol": [
+    "BEGIN_REQ",
+    "END_REQ",
+    "BEGIN_RESP",
+    "END_RESP"
+  ],
+  "scenario": "direct_stream",
+  "makespan_ns": 814408.5,
+  "throughput_jobs_per_ms": 2.45577,
+  "jobs": [
+    {
+      "name": "audio_decode",
+      "accelerator": "audio_decode",
+      "mode": "direct_stream",
+      "start_ns": 0,
+      "end_ns": 391114.0909090909,
+      "input_done_ns": 50205.0,
+      "compute_done_ns": 391114.0909090909,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 33805.0,
+      "memory_ns": 16400.0,
+      "compute_ns": 340909.0909090909,
+      "dram_bytes": 0,
+      "energy_nj": 163636.36363636362
+    },
+    {
+      "name": "fft",
+      "accelerator": "fft0",
+      "mode": "direct_stream",
+      "start_ns": 391114.0909090909,
+      "end_ns": 814408.5,
+      "input_done_ns": 458750.5,
+      "compute_done_ns": 799659.5909090908,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 80321.3181818183,
+      "memory_ns": 2064.0,
+      "compute_ns": 340909.0909090909,
+      "dram_bytes": 0,
+      "energy_nj": 218181.81818181815
+    }
+  ],
+  "at_noc": {
+    "packets": 10,
+    "flits": 53256,
+    "aggregate_link_busy_ns": 110609.0,
+    "max_virtual_channel_queue_ns": 0.0,
+    "phase_events": 44
+  },
+  "dram_bytes": 0,
+  "assumption_ledger": [
+    "The ISSCC paper publishes topology and aggregate results, not router RTL, exact protocol timing, or full workload traces.",
+    "The NoC configuration uses six planes and 16 B/ns link throughput; all router, virtual-channel, FIFO and packet parameters are user-calibration inputs.",
+    "DRAM, LLC, and SPAD timing are abstract service queues, not cache-coherence or DRAM-controller functional models.",
+    "DHPM uses a fair discrete-token allocator and an illustrative V/F lookup table; it is not a transistor-level LDO/TRO model.",
+    "Energy is a relative active-compute proxy, intended for policy ranking only.",
+    "AT extension: each transaction records the four TLM non-blocking protocol phases and packet-level router/VC arbitration.",
+    "AT extension: flits are serialized analytically within each packet; this is not a flit-by-flit RTL NoC simulation.",
+    "AT extension: asynchronous tile boundaries add a programmable FIFO delay and align to a configurable tile clock period."
+  ]
+}

@@ -1,0 +1,45 @@
+time_ns,transaction,phase,location,vc,detail
+0,audio_decode:mmio,BEGIN_REQ,tile0,,MMIO_PROGRAM
+1.0,audio_decode:mmio,REQ_ROUTER,tile0->tile6,0,plane=0; flits=1
+2.5,audio_decode:mmio,END_REQ,tile6,,MMIO_PROGRAM
+6.5,audio_decode:mmio,BEGIN_RESP,tile6,,MMIO_PROGRAM
+9.0,audio_decode:mmio,RESP_ROUTER,tile6->tile0,0,plane=0; flits=1
+10.5,audio_decode:dma_read,BEGIN_REQ,tile6,,DMA_READ
+10.5,audio_decode:mmio,END_RESP,tile0,,MMIO_PROGRAM
+13.0,audio_decode:dma_read,REQ_ROUTER,tile6->tile7,0,plane=0; flits=2
+15.5,audio_decode:dma_read,END_REQ,tile7,,DMA_READ
+16411.5,audio_decode:dma_read,BEGIN_RESP,tile7,,DMA_READ
+16413.0,audio_decode:dma_read,RESP_ROUTER,tile7->tile6,0,plane=0; flits=32768
+50205.0,audio_decode:dma_read,END_RESP,tile6,,DMA_READ
+391114.0909090909,fft:mmio,BEGIN_REQ,tile0,,MMIO_PROGRAM
+391117.0,fft:mmio,REQ_ROUTER,tile0->tile1,0,plane=0; flits=1
+391121.0,fft:mmio,REQ_ROUTER,tile1->tile2,0,plane=0; flits=1
+391125.0,fft:mmio,REQ_ROUTER,tile2->tile3,0,plane=0; flits=1
+391126.5,fft:mmio,END_REQ,tile3,,MMIO_PROGRAM
+391130.5,fft:mmio,BEGIN_RESP,tile3,,MMIO_PROGRAM
+391133.0,fft:mmio,RESP_ROUTER,tile3->tile2,0,plane=0; flits=1
+391137.0,fft:mmio,RESP_ROUTER,tile2->tile1,0,plane=0; flits=1
+391141.0,fft:mmio,RESP_ROUTER,tile1->tile0,0,plane=0; flits=1
+391142.5,fft:mmio,END_RESP,tile0,,MMIO_PROGRAM
+391142.5,fft:stream,BEGIN_REQ,tile6,,DIRECT_STREAM
+391145.0,fft:stream,REQ_ROUTER,tile6->tile7,1,plane=0; flits=16384
+408043.0,fft:stream,REQ_ROUTER,tile7->tile8,0,plane=0; flits=16384
+424941.0,fft:stream,REQ_ROUTER,tile8->tile9,0,plane=0; flits=16384
+441839.0,fft:stream,REQ_ROUTER,tile9->tile3,0,plane=0; flits=16384
+458735.0,fft:stream,BEGIN_RESP,tile3,,DIRECT_STREAM
+458735.0,fft:stream,END_REQ,tile3,,DIRECT_STREAM
+458737.0,fft:stream,RESP_ROUTER,tile3->tile2,1,plane=0; flits=1
+458741.0,fft:stream,RESP_ROUTER,tile2->tile1,1,plane=0; flits=1
+458745.0,fft:stream,RESP_ROUTER,tile1->tile0,1,plane=0; flits=1
+458749.0,fft:stream,RESP_ROUTER,tile0->tile6,1,plane=0; flits=1
+458750.5,fft:stream,END_RESP,tile6,,DIRECT_STREAM
+799659.5909090908,fft:dma_write,BEGIN_REQ,tile3,,DMA_WRITE
+799661.0,fft:dma_write,REQ_ROUTER,tile3->tile2,2,plane=0; flits=4096
+803887.0,fft:dma_write,REQ_ROUTER,tile2->tile1,2,plane=0; flits=4096
+808113.0,fft:dma_write,REQ_ROUTER,tile1->tile7,0,plane=0; flits=4096
+812337.0,fft:dma_write,END_REQ,tile7,,DMA_WRITE
+814397.0,fft:dma_write,BEGIN_RESP,tile7,,DMA_WRITE
+814399.0,fft:dma_write,RESP_ROUTER,tile7->tile8,1,plane=0; flits=1
+814403.0,fft:dma_write,RESP_ROUTER,tile8->tile9,1,plane=0; flits=1
+814407.0,fft:dma_write,RESP_ROUTER,tile9->tile3,1,plane=0; flits=1
+814408.5,fft:dma_write,END_RESP,tile3,,DMA_WRITE

@@ -1,0 +1,3 @@
+name,accelerator,mode,start_ns,end_ns,input_done_ns,compute_done_ns,frequency_ghz,tokens,network_ns,memory_ns,compute_ns,dram_bytes,energy_nj
+audio_decode,audio_decode,direct_stream,0,422843.0909090909,81934.0,422843.0909090909,0.55,8,65538.0,16396.0,340909.0909090909,0,163636.36363636362
+fft,fft0,direct_stream,422843.0909090909,843643.1818181818,488383.0909090909,829292.1818181818,0.55,8,77831.0,2060.0,340909.0909090909,0,218181.81818181815

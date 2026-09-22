@@ -1,0 +1,102 @@
+{
+  "scenario": "baseline",
+  "makespan_ns": 4288163.364,
+  "throughput_jobs_per_ms": 1.166,
+  "jobs": [
+    {
+      "name": "analytics",
+      "accelerator": "ad",
+      "mode": "non_coherent_dma",
+      "start_ns": 0,
+      "end_ns": 1467413.2727272725,
+      "input_done_ns": 426120.0,
+      "compute_done_ns": 1448847.2727272725,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 270342.0,
+      "memory_ns": 174344.0,
+      "compute_ns": 1022727.2727272726,
+      "dram_bytes": 1114112,
+      "energy_nj": 368181.8181818181
+    },
+    {
+      "name": "navigation",
+      "accelerator": "gps",
+      "mode": "non_coherent_dma",
+      "start_ns": 0,
+      "end_ns": 1806561.9999999998,
+      "input_done_ns": 1565841.2727272725,
+      "compute_done_ns": 1793113.9999999998,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 139276.0,
+      "memory_ns": 1440013.2727272725,
+      "compute_ns": 227272.72727272726,
+      "dram_bytes": 294912,
+      "energy_nj": 100000.0
+    },
+    {
+      "name": "nlp",
+      "accelerator": "nlp0",
+      "mode": "non_coherent_dma",
+      "start_ns": 0,
+      "end_ns": 2992001.090909091,
+      "input_done_ns": 2441458.0,
+      "compute_done_ns": 2938617.090909091,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 819212.0000000002,
+      "memory_ns": 1675629.9999999998,
+      "compute_ns": 497159.0909090909,
+      "dram_bytes": 1703936,
+      "energy_nj": 596590.909090909
+    },
+    {
+      "name": "secure",
+      "accelerator": "aes0",
+      "mode": "non_coherent_dma",
+      "start_ns": 0,
+      "end_ns": 3659792.5454545454,
+      "input_done_ns": 3090426.090909091,
+      "compute_done_ns": 3544971.5454545454,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 98307.0,
+      "memory_ns": 3106940.090909091,
+      "compute_ns": 454545.45454545453,
+      "dram_bytes": 1048576,
+      "energy_nj": 200000.0
+    },
+    {
+      "name": "vision",
+      "accelerator": "nvdla0",
+      "mode": "non_coherent_dma",
+      "start_ns": 0,
+      "end_ns": 4288163.363636363,
+      "input_done_ns": 4053129.5454545454,
+      "compute_done_ns": 4230686.363636363,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 278531.0,
+      "memory_ns": 3832075.5454545454,
+      "compute_ns": 177556.81818181818,
+      "dram_bytes": 2359296,
+      "energy_nj": 312500.0
+    }
+  ],
+  "noc": {
+    "packets": 15,
+    "bytes": 12025856,
+    "aggregate_link_busy_ns": 1605632.0,
+    "max_link_queue_wait_ns": 0.0
+  },
+  "dram_bytes": 6520832,
+  "estimated_compute_energy_nj": 1577272.727,
+  "assumption_ledger": [
+    "The ISSCC paper publishes topology and aggregate results, not router RTL, exact protocol timing, or full workload traces.",
+    "The NoC configuration uses six planes and 16 B/ns link throughput; all router, virtual-channel, FIFO and packet parameters are user-calibration inputs.",
+    "DRAM, LLC, and SPAD timing are abstract service queues, not cache-coherence or DRAM-controller functional models.",
+    "DHPM uses a fair discrete-token allocator and an illustrative V/F lookup table; it is not a transistor-level LDO/TRO model.",
+    "Energy is a relative active-compute proxy, intended for policy ranking only."
+  ]
+}

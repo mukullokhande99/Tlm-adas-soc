@@ -1,0 +1,112 @@
+{
+  "model_fidelity": "approximately_timed",
+  "protocol": [
+    "BEGIN_REQ",
+    "END_REQ",
+    "BEGIN_RESP",
+    "END_RESP"
+  ],
+  "scenario": "dhpm_5accel",
+  "makespan_ns": 1103276.5,
+  "throughput_jobs_per_ms": 4.53196,
+  "jobs": [
+    {
+      "name": "nvdla",
+      "accelerator": "nvdla0",
+      "mode": "spad",
+      "start_ns": 0,
+      "end_ns": 387134.5,
+      "input_done_ns": 75803.0,
+      "compute_done_ns": 377649.5909090909,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 76061.90909090912,
+      "memory_ns": 9226.0,
+      "compute_ns": 301846.5909090909,
+      "dram_bytes": 0,
+      "energy_nj": 531249.9999999999
+    },
+    {
+      "name": "nlp",
+      "accelerator": "nlp0",
+      "mode": "spad",
+      "start_ns": 200,
+      "end_ns": 1046852.5,
+      "input_done_ns": 109841.0,
+      "compute_done_ns": 1033136.4545454545,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 114131.04545454553,
+      "memory_ns": 9226.0,
+      "compute_ns": 923295.4545454545,
+      "dram_bytes": 0,
+      "energy_nj": 1107954.5454545454
+    },
+    {
+      "name": "vision",
+      "accelerator": "vision0",
+      "mode": "coherent_dma",
+      "start_ns": 400,
+      "end_ns": 530942.5,
+      "input_done_ns": 93181.0,
+      "compute_done_ns": 519317.3636363636,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 95162.13636363641,
+      "memory_ns": 9244.0,
+      "compute_ns": 426136.3636363636,
+      "dram_bytes": 0,
+      "energy_nj": 511363.6363636363
+    },
+    {
+      "name": "crypto",
+      "accelerator": "crypto",
+      "mode": "coherent_dma",
+      "start_ns": 600,
+      "end_ns": 1103276.5,
+      "input_done_ns": 589821.0,
+      "compute_done_ns": 1044366.4545454546,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 101475.54545454541,
+      "memory_ns": 546655.5,
+      "compute_ns": 454545.45454545453,
+      "dram_bytes": 0,
+      "energy_nj": 254545.45454545453
+    },
+    {
+      "name": "viterbi",
+      "accelerator": "viterbi0",
+      "mode": "coherent_dma",
+      "start_ns": 800,
+      "end_ns": 715832.5,
+      "input_done_ns": 30305.0,
+      "compute_done_ns": 712123.1818181818,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 28578.318181818235,
+      "memory_ns": 4636.0,
+      "compute_ns": 681818.1818181818,
+      "dram_bytes": 0,
+      "energy_nj": 272727.2727272727
+    }
+  ],
+  "at_noc": {
+    "packets": 30,
+    "flits": 134169,
+    "aggregate_link_busy_ns": 402534.0,
+    "max_virtual_channel_queue_ns": 0.0,
+    "phase_events": 178
+  },
+  "dram_bytes": 0,
+  "assumption_ledger": [
+    "The ISSCC paper publishes topology and aggregate results, not router RTL, exact protocol timing, or full workload traces.",
+    "The NoC configuration uses six planes and 16 B/ns link throughput; all router, virtual-channel, FIFO and packet parameters are user-calibration inputs.",
+    "DRAM, LLC, and SPAD timing are abstract service queues, not cache-coherence or DRAM-controller functional models.",
+    "DHPM uses a fair discrete-token allocator and an illustrative V/F lookup table; it is not a transistor-level LDO/TRO model.",
+    "Energy is a relative active-compute proxy, intended for policy ranking only.",
+    "AT extension: each transaction records the four TLM non-blocking protocol phases and packet-level router/VC arbitration.",
+    "AT extension: flits are serialized analytically within each packet; this is not a flit-by-flit RTL NoC simulation.",
+    "AT extension: asynchronous tile boundaries add a programmable FIFO delay and align to a configurable tile clock period."
+  ]
+}
