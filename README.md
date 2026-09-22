@@ -21,7 +21,7 @@ mode reproduces unreleased RTL, OS drivers, or the confidential NoC protocol.
 | Component | Model fidelity |
 | --- | --- |
 | 6x6 mesh NoC / six planes | XY routing, per-link serialization queues, packet-size and hop delays |
-| CPU cluster and 23 accelerator tiles | Explicit named endpoints; MMIO control, abstract compute latency and completion interrupts |
+| CPU cluster and 24 accelerator tiles | Explicit named endpoints; MMIO control, abstract compute latency and completion interrupts |
 | IOMMU / coherence manager / PLIC | Explicit AT modules for DMA translation, coherent-DMA probes/flush ordering and interrupt delivery |
 | LLC / DRAM / SPAD | Independent service queues, capacity checks, bandwidth and access latency |
 | DMA modes | Non-coherent DMA, coherent DMA, coherent DMA + L2 flush, SPAD, and direct accelerator streaming |
@@ -72,8 +72,9 @@ confidential exact values.
 ## Workload catalogue
 
 The executable workload cases are documented in [docs/workloads.md](docs/workloads.md).
-They are defined in the configuration scenarios block: baseline, llc_spad,
-direct_stream and dhpm_5accel.
+They include four architecture-stress cases and five ADAS pipeline cases:
+front perception, driver monitoring, surround fusion, PilotNet control and
+event-based hazard perception.
 
 ## Explicit SoC modules
 

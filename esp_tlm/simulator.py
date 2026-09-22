@@ -7,7 +7,7 @@ from pathlib import Path
 from .dhpm import TokenPowerManager
 from .noc import MeshNoC
 from .resources import QueuedResource
-from .types import AccessMode, Job, JobResult, Report, Transaction
+from .types import AccessMode, Job, JobResult, Report, Transaction, dependency_order
 
 
 class SoCSimulator:
@@ -91,7 +91,7 @@ class SoCSimulator:
 
     def run(self, scenario: str, jobs: list[Job]) -> Report:
         report = Report(scenario=scenario)
-        for job in sorted(jobs, key=lambda j: (j.release_ns, j.name)):
+        for job in dependency_order(jobs):
             if job.depends_on and job.depends_on not in self.completed:
                 raise ValueError(f"{job.name} depends on missing/uncompleted job {job.depends_on}")
             dependency_done = self.completed[job.depends_on].end_ns if job.depends_on else 0.0

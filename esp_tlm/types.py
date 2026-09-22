@@ -39,6 +39,27 @@ class Job:
     tile: int = -1
 
 
+def dependency_order(jobs: list[Job]) -> list[Job]:
+    """Return a release-time-stable topological order for a workload DAG."""
+    pending = {job.name: job for job in jobs}
+    if len(pending) != len(jobs):
+        raise ValueError("Workload jobs must have unique names")
+    missing = [job.depends_on for job in jobs if job.depends_on and job.depends_on not in pending]
+    if missing:
+        raise ValueError(f"Workload depends on unknown job {missing[0]}")
+    ordered: list[Job] = []
+    completed: set[str] = set()
+    while pending:
+        ready = [job for job in pending.values() if not job.depends_on or job.depends_on in completed]
+        if not ready:
+            raise ValueError("Workload dependency graph contains a cycle")
+        job = min(ready, key=lambda candidate: (candidate.release_ns, candidate.name))
+        ordered.append(job)
+        completed.add(job.name)
+        del pending[job.name]
+    return ordered
+
+
 @dataclass
 class JobResult:
     name: str

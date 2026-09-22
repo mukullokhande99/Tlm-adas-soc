@@ -1,0 +1,86 @@
+{
+  "scenario": "adas_pilotnet_control",
+  "makespan_ns": 838370.091,
+  "throughput_jobs_per_ms": 4.77116,
+  "jobs": [
+    {
+      "name": "control_isp",
+      "accelerator": "isp0",
+      "mode": "spad",
+      "start_ns": 0,
+      "end_ns": 574057.4545454546,
+      "input_done_ns": 367207.0,
+      "compute_done_ns": 509252.45454545453,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 403206.00000000006,
+      "memory_ns": 28806.0,
+      "compute_ns": 142045.45454545453,
+      "dram_bytes": 0,
+      "energy_nj": 79545.45454545453
+    },
+    {
+      "name": "lane_geometry",
+      "accelerator": "vision0",
+      "mode": "spad",
+      "start_ns": 574057.4545454546,
+      "end_ns": 838370.0909090909,
+      "input_done_ns": 638862.4545454546,
+      "compute_done_ns": 837726.0909090909,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 58115.0,
+      "memory_ns": 7334.0,
+      "compute_ns": 198863.63636363635,
+      "dram_bytes": 0,
+      "energy_nj": 238636.36363636362
+    },
+    {
+      "name": "pilotnet_inference",
+      "accelerator": "nvdla0",
+      "mode": "spad",
+      "start_ns": 574057.4545454546,
+      "end_ns": 782272.7272727273,
+      "input_done_ns": 696464.4545454546,
+      "compute_done_ns": 781691.7272727273,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 115718.0,
+      "memory_ns": 7270.0,
+      "compute_ns": 85227.27272727272,
+      "dram_bytes": 0,
+      "energy_nj": 150000.0
+    },
+    {
+      "name": "steering_throttle_brake",
+      "accelerator": "matrix",
+      "mode": "coherent_dma_l2_flush",
+      "start_ns": 782272.7272727273,
+      "end_ns": 803028.1818181819,
+      "input_done_ns": 785776.7272727273,
+      "compute_done_ns": 802822.1818181819,
+      "frequency_ghz": 0.55,
+      "tokens": 8,
+      "network_ns": 2086.0,
+      "memory_ns": 1624.0,
+      "compute_ns": 17045.454545454544,
+      "dram_bytes": 8448,
+      "energy_nj": 17727.272727272728
+    }
+  ],
+  "noc": {
+    "packets": 12,
+    "bytes": 5097728,
+    "aggregate_link_busy_ns": 579104.0,
+    "max_link_queue_wait_ns": 0.0
+  },
+  "dram_bytes": 8448,
+  "estimated_compute_energy_nj": 485909.091,
+  "assumption_ledger": [
+    "The ISSCC paper publishes topology and aggregate results, not router RTL, exact protocol timing, or full workload traces.",
+    "The NoC configuration uses six planes and 16 B/ns link throughput; all router, virtual-channel, FIFO and packet parameters are user-calibration inputs.",
+    "DRAM, LLC, and SPAD timing are abstract service queues, not cache-coherence or DRAM-controller functional models.",
+    "DHPM uses a fair discrete-token allocator and an illustrative V/F lookup table; it is not a transistor-level LDO/TRO model.",
+    "Energy is a relative active-compute proxy, intended for policy ranking only."
+  ]
+}

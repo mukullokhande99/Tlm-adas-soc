@@ -17,7 +17,7 @@ from pathlib import Path
 from .dhpm import TokenPowerManager
 from .modules import ExplicitSoCModules
 from .resources import QueuedResource
-from .types import AccessMode, Job, JobResult
+from .types import AccessMode, Job, JobResult, dependency_order
 
 
 @dataclass
@@ -286,7 +286,7 @@ class ATSoCSimulator:
 
     def run(self, scenario: str, jobs: list[Job]) -> ATReport:
         report = ATReport(scenario=scenario)
-        for job in sorted(jobs, key=lambda x: (x.release_ns, x.name)):
+        for job in dependency_order(jobs):
             if job.depends_on and job.depends_on not in self.completed:
                 raise ValueError(f"{job.name} depends on unavailable job {job.depends_on}")
             dependency = self.completed[job.depends_on].end_ns if job.depends_on else 0.0

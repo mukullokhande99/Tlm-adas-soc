@@ -1,0 +1,353 @@
+time_ns,transaction,phase,location,vc,detail
+0,control_isp:mmio,BEGIN_REQ,tile0,,MMIO_PROGRAM
+1.0,control_isp:mmio,REQ_ROUTER,tile0->tile1,0,plane=0; flits=1
+5.0,control_isp:mmio,REQ_ROUTER,tile1->tile2,0,plane=0; flits=1
+9.0,control_isp:mmio,REQ_ROUTER,tile2->tile3,0,plane=0; flits=1
+13.0,control_isp:mmio,REQ_ROUTER,tile3->tile4,0,plane=0; flits=1
+17.0,control_isp:mmio,REQ_ROUTER,tile4->tile10,0,plane=0; flits=1
+21.0,control_isp:mmio,REQ_ROUTER,tile10->tile16,0,plane=0; flits=1
+25.0,control_isp:mmio,REQ_ROUTER,tile16->tile22,0,plane=0; flits=1
+29.0,control_isp:mmio,REQ_ROUTER,tile22->tile28,0,plane=0; flits=1
+33.0,control_isp:mmio,REQ_ROUTER,tile28->tile34,0,plane=0; flits=1
+34.5,control_isp:mmio,END_REQ,tile34,,MMIO_PROGRAM
+38.5,control_isp:mmio,BEGIN_RESP,tile34,,MMIO_PROGRAM
+41.0,control_isp:mmio,RESP_ROUTER,tile34->tile33,0,plane=0; flits=1
+45.0,control_isp:mmio,RESP_ROUTER,tile33->tile32,0,plane=0; flits=1
+49.0,control_isp:mmio,RESP_ROUTER,tile32->tile31,0,plane=0; flits=1
+53.0,control_isp:mmio,RESP_ROUTER,tile31->tile30,0,plane=0; flits=1
+57.0,control_isp:mmio,RESP_ROUTER,tile30->tile24,0,plane=0; flits=1
+61.0,control_isp:mmio,RESP_ROUTER,tile24->tile18,0,plane=0; flits=1
+65.0,control_isp:mmio,RESP_ROUTER,tile18->tile12,0,plane=0; flits=1
+69.0,control_isp:mmio,RESP_ROUTER,tile12->tile6,0,plane=0; flits=1
+73.0,control_isp:mmio,RESP_ROUTER,tile6->tile0,0,plane=0; flits=1
+74.5,control_isp:iommu_read,BEGIN_REQ,tile34,,IOMMU_TRANSLATE
+74.5,control_isp:mmio,END_RESP,tile0,,MMIO_PROGRAM
+77.0,control_isp:iommu_read,REQ_ROUTER,tile34->tile33,1,plane=0; flits=2
+81.0,control_isp:iommu_read,REQ_ROUTER,tile33->tile32,1,plane=0; flits=2
+85.0,control_isp:iommu_read,REQ_ROUTER,tile32->tile31,1,plane=0; flits=2
+89.0,control_isp:iommu_read,REQ_ROUTER,tile31->tile25,0,plane=0; flits=2
+93.0,control_isp:iommu_read,REQ_ROUTER,tile25->tile19,0,plane=0; flits=2
+97.0,control_isp:iommu_read,REQ_ROUTER,tile19->tile13,0,plane=0; flits=2
+101.0,control_isp:iommu_read,REQ_ROUTER,tile13->tile7,0,plane=0; flits=2
+103.5,control_isp:iommu_read,END_REQ,tile7,,IOMMU_TRANSLATE
+112.5,control_isp:iommu_read,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+115.0,control_isp:iommu_read,RESP_ROUTER,tile7->tile8,0,plane=0; flits=1
+119.0,control_isp:iommu_read,RESP_ROUTER,tile8->tile9,0,plane=0; flits=1
+123.0,control_isp:iommu_read,RESP_ROUTER,tile9->tile10,0,plane=0; flits=1
+127.0,control_isp:iommu_read,RESP_ROUTER,tile10->tile16,1,plane=0; flits=1
+131.0,control_isp:iommu_read,RESP_ROUTER,tile16->tile22,1,plane=0; flits=1
+135.0,control_isp:iommu_read,RESP_ROUTER,tile22->tile28,1,plane=0; flits=1
+139.0,control_isp:iommu_read,RESP_ROUTER,tile28->tile34,1,plane=0; flits=1
+140.5,control_isp:dma_read,BEGIN_REQ,tile34,,DMA_READ
+140.5,control_isp:iommu_read,END_RESP,tile34,,IOMMU_TRANSLATE
+143.0,control_isp:dma_read,REQ_ROUTER,tile34->tile28,0,plane=0; flits=2
+147.0,control_isp:dma_read,REQ_ROUTER,tile28->tile22,0,plane=0; flits=2
+149.5,control_isp:dma_read,END_REQ,tile22,,DMA_READ
+21752.5,control_isp:dma_read,BEGIN_RESP,tile22,,DMA_READ
+21755.0,control_isp:dma_read,RESP_ROUTER,tile22->tile28,2,plane=0; flits=86400
+110857.0,control_isp:dma_read,RESP_ROUTER,tile28->tile34,2,plane=0; flits=86400
+199957.0,control_isp:dma_read,END_RESP,tile34,,DMA_READ
+342002.45454545453,control_isp:iommu_write,BEGIN_REQ,tile34,,IOMMU_TRANSLATE
+342005.0,control_isp:iommu_write,REQ_ROUTER,tile34->tile33,2,plane=0; flits=2
+342009.0,control_isp:iommu_write,REQ_ROUTER,tile33->tile32,2,plane=0; flits=2
+342013.0,control_isp:iommu_write,REQ_ROUTER,tile32->tile31,2,plane=0; flits=2
+342017.0,control_isp:iommu_write,REQ_ROUTER,tile31->tile25,1,plane=0; flits=2
+342021.0,control_isp:iommu_write,REQ_ROUTER,tile25->tile19,1,plane=0; flits=2
+342025.0,control_isp:iommu_write,REQ_ROUTER,tile19->tile13,1,plane=0; flits=2
+342029.0,control_isp:iommu_write,REQ_ROUTER,tile13->tile7,1,plane=0; flits=2
+342031.5,control_isp:iommu_write,END_REQ,tile7,,IOMMU_TRANSLATE
+342040.5,control_isp:iommu_write,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+342043.0,control_isp:iommu_write,RESP_ROUTER,tile7->tile8,1,plane=0; flits=1
+342047.0,control_isp:iommu_write,RESP_ROUTER,tile8->tile9,1,plane=0; flits=1
+342051.0,control_isp:iommu_write,RESP_ROUTER,tile9->tile10,1,plane=0; flits=1
+342055.0,control_isp:iommu_write,RESP_ROUTER,tile10->tile16,2,plane=0; flits=1
+342059.0,control_isp:iommu_write,RESP_ROUTER,tile16->tile22,2,plane=0; flits=1
+342063.0,control_isp:iommu_write,RESP_ROUTER,tile22->tile28,3,plane=0; flits=1
+342067.0,control_isp:iommu_write,RESP_ROUTER,tile28->tile34,3,plane=0; flits=1
+342068.5,control_isp:dma_write,BEGIN_REQ,tile34,,DMA_WRITE
+342068.5,control_isp:iommu_write,END_RESP,tile34,,IOMMU_TRANSLATE
+342071.0,control_isp:dma_write,REQ_ROUTER,tile34->tile28,1,plane=0; flits=28800
+371773.0,control_isp:dma_write,REQ_ROUTER,tile28->tile22,1,plane=0; flits=28800
+401473.0,control_isp:dma_write,END_REQ,tile22,,DMA_WRITE
+408676.0,control_isp:dma_write,BEGIN_RESP,tile22,,DMA_WRITE
+408677.0,control_isp:dma_write,RESP_ROUTER,tile22->tile28,0,plane=1; flits=1
+408681.0,control_isp:dma_write,RESP_ROUTER,tile28->tile34,0,plane=1; flits=1
+408682.5,control_isp:dma_write,END_RESP,tile34,,DMA_WRITE
+408682.5,control_isp:irq_raise,BEGIN_REQ,tile34,,IRQ_RAISE
+408685.0,control_isp:irq_raise,REQ_ROUTER,tile34->tile33,3,plane=0; flits=1
+408689.0,control_isp:irq_raise,REQ_ROUTER,tile33->tile32,3,plane=0; flits=1
+408693.0,control_isp:irq_raise,REQ_ROUTER,tile32->tile31,3,plane=0; flits=1
+408697.0,control_isp:irq_raise,REQ_ROUTER,tile31->tile30,1,plane=0; flits=1
+408701.0,control_isp:irq_raise,REQ_ROUTER,tile30->tile24,1,plane=0; flits=1
+408705.0,control_isp:irq_raise,REQ_ROUTER,tile24->tile18,1,plane=0; flits=1
+408709.0,control_isp:irq_raise,REQ_ROUTER,tile18->tile12,1,plane=0; flits=1
+408713.0,control_isp:irq_raise,REQ_ROUTER,tile12->tile6,1,plane=0; flits=1
+408717.0,control_isp:irq_raise,REQ_ROUTER,tile6->tile0,1,plane=0; flits=1
+408718.5,control_isp:irq_raise,END_REQ,tile0,,IRQ_RAISE
+408722.5,control_isp:irq_raise,BEGIN_RESP,tile0,,IRQ_RAISE
+408725.0,control_isp:irq_raise,RESP_ROUTER,tile0->tile1,1,plane=0; flits=1
+408729.0,control_isp:irq_raise,RESP_ROUTER,tile1->tile2,1,plane=0; flits=1
+408733.0,control_isp:irq_raise,RESP_ROUTER,tile2->tile3,1,plane=0; flits=1
+408737.0,control_isp:irq_raise,RESP_ROUTER,tile3->tile4,1,plane=0; flits=1
+408741.0,control_isp:irq_raise,RESP_ROUTER,tile4->tile10,1,plane=0; flits=1
+408745.0,control_isp:irq_raise,RESP_ROUTER,tile10->tile16,3,plane=0; flits=1
+408749.0,control_isp:irq_raise,RESP_ROUTER,tile16->tile22,3,plane=0; flits=1
+408753.0,control_isp:irq_raise,RESP_ROUTER,tile22->tile28,1,plane=1; flits=1
+408757.0,control_isp:irq_raise,RESP_ROUTER,tile28->tile34,1,plane=1; flits=1
+408758.5,control_isp:irq_deliver,BEGIN_REQ,tile0,,IRQ_DELIVER
+408758.5,control_isp:irq_raise,END_RESP,tile34,,IRQ_RAISE
+408761.0,control_isp:irq_deliver,BEGIN_RESP,tile0,,IRQ_DELIVER
+408761.0,control_isp:irq_deliver,END_REQ,tile0,,IRQ_DELIVER
+408761.0,control_isp:irq_deliver,REQ_LOCAL,tile0,,16 B
+408763.0,control_isp:irq_deliver,END_RESP,tile0,,IRQ_DELIVER
+408763.0,control_isp:irq_deliver,RESP_LOCAL,tile0,,16 B
+408763.0,lane_geometry:mmio,BEGIN_REQ,tile0,,MMIO_PROGRAM
+408763.0,pilotnet_inference:mmio,BEGIN_REQ,tile0,,MMIO_PROGRAM
+408765.0,lane_geometry:mmio,REQ_ROUTER,tile0->tile1,2,plane=0; flits=1
+408765.0,pilotnet_inference:mmio,REQ_ROUTER,tile0->tile1,0,plane=1; flits=1
+408766.5,pilotnet_inference:mmio,END_REQ,tile1,,MMIO_PROGRAM
+408769.0,lane_geometry:mmio,REQ_ROUTER,tile1->tile2,2,plane=0; flits=1
+408770.5,pilotnet_inference:mmio,BEGIN_RESP,tile1,,MMIO_PROGRAM
+408773.0,lane_geometry:mmio,REQ_ROUTER,tile2->tile3,2,plane=0; flits=1
+408773.0,pilotnet_inference:mmio,RESP_ROUTER,tile1->tile0,0,plane=0; flits=1
+408774.5,pilotnet_inference:iommu_read,BEGIN_REQ,tile1,,IOMMU_TRANSLATE
+408774.5,pilotnet_inference:mmio,END_RESP,tile0,,MMIO_PROGRAM
+408777.0,lane_geometry:mmio,REQ_ROUTER,tile3->tile4,2,plane=0; flits=1
+408777.0,pilotnet_inference:iommu_read,REQ_ROUTER,tile1->tile7,0,plane=0; flits=2
+408779.5,pilotnet_inference:iommu_read,END_REQ,tile7,,IOMMU_TRANSLATE
+408781.0,lane_geometry:mmio,REQ_ROUTER,tile4->tile5,0,plane=0; flits=1
+408785.0,lane_geometry:mmio,REQ_ROUTER,tile5->tile11,0,plane=0; flits=1
+408789.0,lane_geometry:mmio,REQ_ROUTER,tile11->tile17,0,plane=0; flits=1
+408793.0,lane_geometry:mmio,REQ_ROUTER,tile17->tile23,0,plane=0; flits=1
+408794.5,lane_geometry:mmio,END_REQ,tile23,,MMIO_PROGRAM
+408798.5,lane_geometry:mmio,BEGIN_RESP,tile23,,MMIO_PROGRAM
+408801.0,lane_geometry:mmio,RESP_ROUTER,tile23->tile22,0,plane=0; flits=1
+408805.0,lane_geometry:mmio,RESP_ROUTER,tile22->tile21,0,plane=0; flits=1
+408809.0,lane_geometry:mmio,RESP_ROUTER,tile21->tile20,0,plane=0; flits=1
+408813.0,lane_geometry:mmio,RESP_ROUTER,tile20->tile19,0,plane=0; flits=1
+408817.0,lane_geometry:mmio,RESP_ROUTER,tile19->tile18,0,plane=0; flits=1
+408821.0,lane_geometry:mmio,RESP_ROUTER,tile18->tile12,2,plane=0; flits=1
+408825.0,lane_geometry:mmio,RESP_ROUTER,tile12->tile6,2,plane=0; flits=1
+408829.0,lane_geometry:mmio,RESP_ROUTER,tile6->tile0,2,plane=0; flits=1
+408830.5,lane_geometry:iommu_read,BEGIN_REQ,tile23,,IOMMU_TRANSLATE
+408830.5,lane_geometry:mmio,END_RESP,tile0,,MMIO_PROGRAM
+408833.0,lane_geometry:iommu_read,REQ_ROUTER,tile23->tile22,1,plane=0; flits=2
+408837.0,lane_geometry:iommu_read,REQ_ROUTER,tile22->tile21,1,plane=0; flits=2
+408841.0,lane_geometry:iommu_read,REQ_ROUTER,tile21->tile20,1,plane=0; flits=2
+408845.0,lane_geometry:iommu_read,REQ_ROUTER,tile20->tile19,1,plane=0; flits=2
+408849.0,lane_geometry:iommu_read,REQ_ROUTER,tile19->tile13,2,plane=0; flits=2
+408853.0,lane_geometry:iommu_read,REQ_ROUTER,tile13->tile7,2,plane=0; flits=2
+408855.5,lane_geometry:iommu_read,END_REQ,tile7,,IOMMU_TRANSLATE
+408864.5,lane_geometry:iommu_read,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+408867.0,lane_geometry:iommu_read,RESP_ROUTER,tile7->tile8,2,plane=0; flits=1
+408871.0,lane_geometry:iommu_read,RESP_ROUTER,tile8->tile9,2,plane=0; flits=1
+408875.0,lane_geometry:iommu_read,RESP_ROUTER,tile9->tile10,2,plane=0; flits=1
+408879.0,lane_geometry:iommu_read,RESP_ROUTER,tile10->tile11,0,plane=0; flits=1
+408883.0,lane_geometry:iommu_read,RESP_ROUTER,tile11->tile17,1,plane=0; flits=1
+408887.0,lane_geometry:iommu_read,RESP_ROUTER,tile17->tile23,1,plane=0; flits=1
+408888.5,lane_geometry:dma_read,BEGIN_REQ,tile23,,DMA_READ
+408888.5,lane_geometry:iommu_read,END_RESP,tile23,,IOMMU_TRANSLATE
+408891.0,lane_geometry:dma_read,REQ_ROUTER,tile23->tile22,2,plane=0; flits=2
+408893.5,lane_geometry:dma_read,END_REQ,tile22,,DMA_READ
+416096.5,lane_geometry:dma_read,BEGIN_RESP,tile22,,DMA_READ
+416099.0,lane_geometry:dma_read,RESP_ROUTER,tile22->tile23,0,plane=0; flits=28800
+445799.0,lane_geometry:dma_read,END_RESP,tile23,,DMA_READ
+644662.6363636364,lane_geometry:iommu_write,BEGIN_REQ,tile23,,IOMMU_TRANSLATE
+644665.0,lane_geometry:iommu_write,REQ_ROUTER,tile23->tile22,3,plane=0; flits=2
+644669.0,lane_geometry:iommu_write,REQ_ROUTER,tile22->tile21,2,plane=0; flits=2
+644673.0,lane_geometry:iommu_write,REQ_ROUTER,tile21->tile20,2,plane=0; flits=2
+644677.0,lane_geometry:iommu_write,REQ_ROUTER,tile20->tile19,2,plane=0; flits=2
+644681.0,lane_geometry:iommu_write,REQ_ROUTER,tile19->tile13,3,plane=0; flits=2
+644685.0,lane_geometry:iommu_write,REQ_ROUTER,tile13->tile7,3,plane=0; flits=2
+644687.5,lane_geometry:iommu_write,END_REQ,tile7,,IOMMU_TRANSLATE
+644696.5,lane_geometry:iommu_write,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+644699.0,lane_geometry:iommu_write,RESP_ROUTER,tile7->tile8,3,plane=0; flits=1
+644703.0,lane_geometry:iommu_write,RESP_ROUTER,tile8->tile9,3,plane=0; flits=1
+644705.5,pilotnet_inference:iommu_read,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+644707.0,lane_geometry:iommu_write,RESP_ROUTER,tile9->tile10,3,plane=0; flits=1
+644707.0,pilotnet_inference:iommu_read,RESP_ROUTER,tile7->tile1,0,plane=0; flits=1
+644708.5,pilotnet_inference:dma_read,BEGIN_REQ,tile1,,DMA_READ
+644708.5,pilotnet_inference:iommu_read,END_RESP,tile1,,IOMMU_TRANSLATE
+644711.0,lane_geometry:iommu_write,RESP_ROUTER,tile10->tile11,1,plane=0; flits=1
+644711.0,pilotnet_inference:dma_read,REQ_ROUTER,tile1->tile7,1,plane=0; flits=2
+644715.0,lane_geometry:iommu_write,RESP_ROUTER,tile11->tile17,2,plane=0; flits=1
+644715.0,pilotnet_inference:dma_read,REQ_ROUTER,tile7->tile13,0,plane=0; flits=2
+644717.5,pilotnet_inference:dma_read,END_REQ,tile13,,DMA_READ
+644719.0,lane_geometry:iommu_write,RESP_ROUTER,tile17->tile23,2,plane=0; flits=1
+644720.5,lane_geometry:dma_write,BEGIN_REQ,tile23,,DMA_WRITE
+644720.5,lane_geometry:iommu_write,END_RESP,tile23,,IOMMU_TRANSLATE
+644723.0,lane_geometry:dma_write,REQ_ROUTER,tile23->tile22,0,plane=1; flits=512
+645251.0,lane_geometry:dma_write,END_REQ,tile22,,DMA_WRITE
+645382.0,lane_geometry:dma_write,BEGIN_RESP,tile22,,DMA_WRITE
+645383.0,lane_geometry:dma_write,RESP_ROUTER,tile22->tile23,1,plane=0; flits=1
+645384.5,lane_geometry:dma_write,END_RESP,tile23,,DMA_WRITE
+645384.5,lane_geometry:irq_raise,BEGIN_REQ,tile23,,IRQ_RAISE
+645387.0,lane_geometry:irq_raise,REQ_ROUTER,tile23->tile22,1,plane=1; flits=1
+645391.0,lane_geometry:irq_raise,REQ_ROUTER,tile22->tile21,3,plane=0; flits=1
+645395.0,lane_geometry:irq_raise,REQ_ROUTER,tile21->tile20,3,plane=0; flits=1
+645399.0,lane_geometry:irq_raise,REQ_ROUTER,tile20->tile19,3,plane=0; flits=1
+645403.0,lane_geometry:irq_raise,REQ_ROUTER,tile19->tile18,1,plane=0; flits=1
+645407.0,lane_geometry:irq_raise,REQ_ROUTER,tile18->tile12,3,plane=0; flits=1
+645411.0,lane_geometry:irq_raise,REQ_ROUTER,tile12->tile6,3,plane=0; flits=1
+645415.0,lane_geometry:irq_raise,REQ_ROUTER,tile6->tile0,3,plane=0; flits=1
+645416.5,lane_geometry:irq_raise,END_REQ,tile0,,IRQ_RAISE
+645420.5,lane_geometry:irq_raise,BEGIN_RESP,tile0,,IRQ_RAISE
+645423.0,lane_geometry:irq_raise,RESP_ROUTER,tile0->tile1,3,plane=0; flits=1
+645427.0,lane_geometry:irq_raise,RESP_ROUTER,tile1->tile2,3,plane=0; flits=1
+645431.0,lane_geometry:irq_raise,RESP_ROUTER,tile2->tile3,3,plane=0; flits=1
+645435.0,lane_geometry:irq_raise,RESP_ROUTER,tile3->tile4,3,plane=0; flits=1
+645439.0,lane_geometry:irq_raise,RESP_ROUTER,tile4->tile5,1,plane=0; flits=1
+645443.0,lane_geometry:irq_raise,RESP_ROUTER,tile5->tile11,1,plane=0; flits=1
+645447.0,lane_geometry:irq_raise,RESP_ROUTER,tile11->tile17,3,plane=0; flits=1
+645451.0,lane_geometry:irq_raise,RESP_ROUTER,tile17->tile23,3,plane=0; flits=1
+645452.5,lane_geometry:irq_deliver,BEGIN_REQ,tile0,,IRQ_DELIVER
+645452.5,lane_geometry:irq_raise,END_RESP,tile23,,IRQ_RAISE
+645455.0,lane_geometry:irq_deliver,BEGIN_RESP,tile0,,IRQ_DELIVER
+645455.0,lane_geometry:irq_deliver,END_REQ,tile0,,IRQ_DELIVER
+645455.0,lane_geometry:irq_deliver,REQ_LOCAL,tile0,,16 B
+645457.0,lane_geometry:irq_deliver,END_RESP,tile0,,IRQ_DELIVER
+645457.0,lane_geometry:irq_deliver,RESP_LOCAL,tile0,,16 B
+651920.5,pilotnet_inference:dma_read,BEGIN_RESP,tile13,,DMA_READ
+651923.0,pilotnet_inference:dma_read,RESP_ROUTER,tile13->tile7,0,plane=1; flits=28800
+681625.0,pilotnet_inference:dma_read,RESP_ROUTER,tile7->tile1,1,plane=0; flits=28800
+711325.0,pilotnet_inference:dma_read,END_RESP,tile1,,DMA_READ
+796552.2727272727,pilotnet_inference:iommu_write,BEGIN_REQ,tile1,,IOMMU_TRANSLATE
+796555.0,pilotnet_inference:iommu_write,REQ_ROUTER,tile1->tile7,2,plane=0; flits=2
+796557.5,pilotnet_inference:iommu_write,END_REQ,tile7,,IOMMU_TRANSLATE
+796566.5,pilotnet_inference:iommu_write,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+796569.0,pilotnet_inference:iommu_write,RESP_ROUTER,tile7->tile1,2,plane=0; flits=1
+796570.5,pilotnet_inference:dma_write,BEGIN_REQ,tile1,,DMA_WRITE
+796570.5,pilotnet_inference:iommu_write,END_RESP,tile1,,IOMMU_TRANSLATE
+796573.0,pilotnet_inference:dma_write,REQ_ROUTER,tile1->tile7,3,plane=0; flits=256
+796839.0,pilotnet_inference:dma_write,REQ_ROUTER,tile7->tile13,1,plane=0; flits=256
+797103.0,pilotnet_inference:dma_write,END_REQ,tile13,,DMA_WRITE
+797170.0,pilotnet_inference:dma_write,BEGIN_RESP,tile13,,DMA_WRITE
+797171.0,pilotnet_inference:dma_write,RESP_ROUTER,tile13->tile7,1,plane=1; flits=1
+797175.0,pilotnet_inference:dma_write,RESP_ROUTER,tile7->tile1,3,plane=0; flits=1
+797176.5,pilotnet_inference:dma_write,END_RESP,tile1,,DMA_WRITE
+797176.5,pilotnet_inference:irq_raise,BEGIN_REQ,tile1,,IRQ_RAISE
+797179.0,pilotnet_inference:irq_raise,REQ_ROUTER,tile1->tile0,1,plane=0; flits=1
+797180.5,pilotnet_inference:irq_raise,END_REQ,tile0,,IRQ_RAISE
+797184.5,pilotnet_inference:irq_raise,BEGIN_RESP,tile0,,IRQ_RAISE
+797187.0,pilotnet_inference:irq_raise,RESP_ROUTER,tile0->tile1,1,plane=1; flits=1
+797188.5,pilotnet_inference:irq_deliver,BEGIN_REQ,tile0,,IRQ_DELIVER
+797188.5,pilotnet_inference:irq_raise,END_RESP,tile1,,IRQ_RAISE
+797191.0,pilotnet_inference:irq_deliver,BEGIN_RESP,tile0,,IRQ_DELIVER
+797191.0,pilotnet_inference:irq_deliver,END_REQ,tile0,,IRQ_DELIVER
+797191.0,pilotnet_inference:irq_deliver,REQ_LOCAL,tile0,,16 B
+797193.0,pilotnet_inference:irq_deliver,END_RESP,tile0,,IRQ_DELIVER
+797193.0,pilotnet_inference:irq_deliver,RESP_LOCAL,tile0,,16 B
+797193.0,steering_throttle_brake:mmio,BEGIN_REQ,tile0,,MMIO_PROGRAM
+797195.0,steering_throttle_brake:mmio,REQ_ROUTER,tile0->tile1,2,plane=1; flits=1
+797199.0,steering_throttle_brake:mmio,REQ_ROUTER,tile1->tile2,0,plane=1; flits=1
+797203.0,steering_throttle_brake:mmio,REQ_ROUTER,tile2->tile8,0,plane=0; flits=1
+797207.0,steering_throttle_brake:mmio,REQ_ROUTER,tile8->tile14,0,plane=0; flits=1
+797211.0,steering_throttle_brake:mmio,REQ_ROUTER,tile14->tile20,0,plane=0; flits=1
+797215.0,steering_throttle_brake:mmio,REQ_ROUTER,tile20->tile26,0,plane=0; flits=1
+797219.0,steering_throttle_brake:mmio,REQ_ROUTER,tile26->tile32,0,plane=0; flits=1
+797220.5,steering_throttle_brake:mmio,END_REQ,tile32,,MMIO_PROGRAM
+797224.5,steering_throttle_brake:mmio,BEGIN_RESP,tile32,,MMIO_PROGRAM
+797227.0,steering_throttle_brake:mmio,RESP_ROUTER,tile32->tile31,0,plane=1; flits=1
+797231.0,steering_throttle_brake:mmio,RESP_ROUTER,tile31->tile30,2,plane=0; flits=1
+797235.0,steering_throttle_brake:mmio,RESP_ROUTER,tile30->tile24,2,plane=0; flits=1
+797239.0,steering_throttle_brake:mmio,RESP_ROUTER,tile24->tile18,2,plane=0; flits=1
+797243.0,steering_throttle_brake:mmio,RESP_ROUTER,tile18->tile12,0,plane=1; flits=1
+797247.0,steering_throttle_brake:mmio,RESP_ROUTER,tile12->tile6,0,plane=1; flits=1
+797251.0,steering_throttle_brake:mmio,RESP_ROUTER,tile6->tile0,0,plane=1; flits=1
+797252.5,steering_throttle_brake:iommu_read,BEGIN_REQ,tile32,,IOMMU_TRANSLATE
+797252.5,steering_throttle_brake:mmio,END_RESP,tile0,,MMIO_PROGRAM
+797255.0,steering_throttle_brake:iommu_read,REQ_ROUTER,tile32->tile31,1,plane=1; flits=2
+797259.0,steering_throttle_brake:iommu_read,REQ_ROUTER,tile31->tile25,2,plane=0; flits=2
+797263.0,steering_throttle_brake:iommu_read,REQ_ROUTER,tile25->tile19,2,plane=0; flits=2
+797267.0,steering_throttle_brake:iommu_read,REQ_ROUTER,tile19->tile13,0,plane=1; flits=2
+797271.0,steering_throttle_brake:iommu_read,REQ_ROUTER,tile13->tile7,2,plane=1; flits=2
+797273.5,steering_throttle_brake:iommu_read,END_REQ,tile7,,IOMMU_TRANSLATE
+797282.5,steering_throttle_brake:iommu_read,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+797285.0,steering_throttle_brake:iommu_read,RESP_ROUTER,tile7->tile8,0,plane=1; flits=1
+797289.0,steering_throttle_brake:iommu_read,RESP_ROUTER,tile8->tile14,1,plane=0; flits=1
+797293.0,steering_throttle_brake:iommu_read,RESP_ROUTER,tile14->tile20,1,plane=0; flits=1
+797297.0,steering_throttle_brake:iommu_read,RESP_ROUTER,tile20->tile26,1,plane=0; flits=1
+797301.0,steering_throttle_brake:iommu_read,RESP_ROUTER,tile26->tile32,1,plane=0; flits=1
+797302.5,steering_throttle_brake:coherence,BEGIN_REQ,tile32,,COHERENCE_PROBE
+797302.5,steering_throttle_brake:iommu_read,END_RESP,tile32,,IOMMU_TRANSLATE
+797305.0,steering_throttle_brake:coherence,REQ_ROUTER,tile32->tile31,2,plane=1; flits=2
+797309.0,steering_throttle_brake:coherence,REQ_ROUTER,tile31->tile25,3,plane=0; flits=2
+797313.0,steering_throttle_brake:coherence,REQ_ROUTER,tile25->tile19,3,plane=0; flits=2
+797317.0,steering_throttle_brake:coherence,REQ_ROUTER,tile19->tile13,1,plane=1; flits=2
+797321.0,steering_throttle_brake:coherence,REQ_ROUTER,tile13->tile7,3,plane=1; flits=2
+797323.5,steering_throttle_brake:coherence,END_REQ,tile7,,COHERENCE_PROBE
+797370.5,steering_throttle_brake:coherence,BEGIN_RESP,tile7,,COHERENCE_PROBE
+797373.0,steering_throttle_brake:coherence,RESP_ROUTER,tile7->tile8,1,plane=1; flits=1
+797377.0,steering_throttle_brake:coherence,RESP_ROUTER,tile8->tile14,2,plane=0; flits=1
+797381.0,steering_throttle_brake:coherence,RESP_ROUTER,tile14->tile20,2,plane=0; flits=1
+797385.0,steering_throttle_brake:coherence,RESP_ROUTER,tile20->tile26,2,plane=0; flits=1
+797389.0,steering_throttle_brake:coherence,RESP_ROUTER,tile26->tile32,2,plane=0; flits=1
+797390.5,steering_throttle_brake:coherence,END_RESP,tile32,,COHERENCE_PROBE
+797390.5,steering_throttle_brake:dma_read,BEGIN_REQ,tile32,,DMA_READ
+797393.0,steering_throttle_brake:dma_read,REQ_ROUTER,tile32->tile31,3,plane=1; flits=2
+797397.0,steering_throttle_brake:dma_read,REQ_ROUTER,tile31->tile25,0,plane=1; flits=2
+797399.5,steering_throttle_brake:dma_read,END_REQ,tile25,,DMA_READ
+798851.5,steering_throttle_brake:dma_read,BEGIN_RESP,tile25,,DMA_READ
+798853.0,steering_throttle_brake:dma_read,RESP_ROUTER,tile25->tile26,0,plane=0; flits=512
+799383.0,steering_throttle_brake:dma_read,RESP_ROUTER,tile26->tile32,3,plane=0; flits=512
+799911.0,steering_throttle_brake:dma_read,END_RESP,tile32,,DMA_READ
+816956.4545454546,steering_throttle_brake:iommu_write,BEGIN_REQ,tile32,,IOMMU_TRANSLATE
+816959.0,steering_throttle_brake:iommu_write,REQ_ROUTER,tile32->tile31,0,plane=2; flits=2
+816963.0,steering_throttle_brake:iommu_write,REQ_ROUTER,tile31->tile25,1,plane=1; flits=2
+816967.0,steering_throttle_brake:iommu_write,REQ_ROUTER,tile25->tile19,0,plane=1; flits=2
+816971.0,steering_throttle_brake:iommu_write,REQ_ROUTER,tile19->tile13,2,plane=1; flits=2
+816975.0,steering_throttle_brake:iommu_write,REQ_ROUTER,tile13->tile7,0,plane=2; flits=2
+816977.5,steering_throttle_brake:iommu_write,END_REQ,tile7,,IOMMU_TRANSLATE
+816986.5,steering_throttle_brake:iommu_write,BEGIN_RESP,tile7,,IOMMU_TRANSLATE
+816989.0,steering_throttle_brake:iommu_write,RESP_ROUTER,tile7->tile8,2,plane=1; flits=1
+816993.0,steering_throttle_brake:iommu_write,RESP_ROUTER,tile8->tile14,3,plane=0; flits=1
+816997.0,steering_throttle_brake:iommu_write,RESP_ROUTER,tile14->tile20,3,plane=0; flits=1
+817001.0,steering_throttle_brake:iommu_write,RESP_ROUTER,tile20->tile26,3,plane=0; flits=1
+817005.0,steering_throttle_brake:iommu_write,RESP_ROUTER,tile26->tile32,0,plane=1; flits=1
+817006.5,steering_throttle_brake:coherence,BEGIN_REQ,tile32,,COHERENCE_PROBE
+817006.5,steering_throttle_brake:iommu_write,END_RESP,tile32,,IOMMU_TRANSLATE
+817009.0,steering_throttle_brake:coherence,REQ_ROUTER,tile32->tile31,1,plane=2; flits=2
+817013.0,steering_throttle_brake:coherence,REQ_ROUTER,tile31->tile25,2,plane=1; flits=2
+817017.0,steering_throttle_brake:coherence,REQ_ROUTER,tile25->tile19,1,plane=1; flits=2
+817021.0,steering_throttle_brake:coherence,REQ_ROUTER,tile19->tile13,3,plane=1; flits=2
+817025.0,steering_throttle_brake:coherence,REQ_ROUTER,tile13->tile7,1,plane=2; flits=2
+817027.5,steering_throttle_brake:coherence,END_REQ,tile7,,COHERENCE_PROBE
+817074.5,steering_throttle_brake:coherence,BEGIN_RESP,tile7,,COHERENCE_PROBE
+817077.0,steering_throttle_brake:coherence,RESP_ROUTER,tile7->tile8,3,plane=1; flits=1
+817081.0,steering_throttle_brake:coherence,RESP_ROUTER,tile8->tile14,0,plane=1; flits=1
+817085.0,steering_throttle_brake:coherence,RESP_ROUTER,tile14->tile20,0,plane=1; flits=1
+817089.0,steering_throttle_brake:coherence,RESP_ROUTER,tile20->tile26,0,plane=1; flits=1
+817093.0,steering_throttle_brake:coherence,RESP_ROUTER,tile26->tile32,1,plane=1; flits=1
+817094.5,steering_throttle_brake:coherence,END_RESP,tile32,,COHERENCE_PROBE
+817094.5,steering_throttle_brake:dma_write,BEGIN_REQ,tile32,,DMA_WRITE
+817097.0,steering_throttle_brake:dma_write,REQ_ROUTER,tile32->tile31,2,plane=2; flits=16
+817115.0,steering_throttle_brake:dma_write,REQ_ROUTER,tile31->tile25,3,plane=1; flits=16
+817131.5,steering_throttle_brake:dma_write,END_REQ,tile25,,DMA_WRITE
+817303.5,steering_throttle_brake:dma_write,BEGIN_RESP,tile25,,DMA_WRITE
+817305.0,steering_throttle_brake:dma_write,RESP_ROUTER,tile25->tile26,1,plane=0; flits=1
+817309.0,steering_throttle_brake:dma_write,RESP_ROUTER,tile26->tile32,2,plane=1; flits=1
+817310.5,steering_throttle_brake:dma_write,END_RESP,tile32,,DMA_WRITE
+817310.5,steering_throttle_brake:irq_raise,BEGIN_REQ,tile32,,IRQ_RAISE
+817313.0,steering_throttle_brake:irq_raise,REQ_ROUTER,tile32->tile31,3,plane=2; flits=1
+817317.0,steering_throttle_brake:irq_raise,REQ_ROUTER,tile31->tile30,3,plane=0; flits=1
+817321.0,steering_throttle_brake:irq_raise,REQ_ROUTER,tile30->tile24,3,plane=0; flits=1
+817325.0,steering_throttle_brake:irq_raise,REQ_ROUTER,tile24->tile18,3,plane=0; flits=1
+817329.0,steering_throttle_brake:irq_raise,REQ_ROUTER,tile18->tile12,1,plane=1; flits=1
+817333.0,steering_throttle_brake:irq_raise,REQ_ROUTER,tile12->tile6,1,plane=1; flits=1
+817337.0,steering_throttle_brake:irq_raise,REQ_ROUTER,tile6->tile0,1,plane=1; flits=1
+817338.5,steering_throttle_brake:irq_raise,END_REQ,tile0,,IRQ_RAISE
+817342.5,steering_throttle_brake:irq_raise,BEGIN_RESP,tile0,,IRQ_RAISE
+817345.0,steering_throttle_brake:irq_raise,RESP_ROUTER,tile0->tile1,3,plane=1; flits=1
+817349.0,steering_throttle_brake:irq_raise,RESP_ROUTER,tile1->tile2,1,plane=1; flits=1
+817353.0,steering_throttle_brake:irq_raise,RESP_ROUTER,tile2->tile8,1,plane=0; flits=1
+817357.0,steering_throttle_brake:irq_raise,RESP_ROUTER,tile8->tile14,1,plane=1; flits=1
+817361.0,steering_throttle_brake:irq_raise,RESP_ROUTER,tile14->tile20,1,plane=1; flits=1
+817365.0,steering_throttle_brake:irq_raise,RESP_ROUTER,tile20->tile26,1,plane=1; flits=1
+817369.0,steering_throttle_brake:irq_raise,RESP_ROUTER,tile26->tile32,3,plane=1; flits=1
+817370.5,steering_throttle_brake:irq_deliver,BEGIN_REQ,tile0,,IRQ_DELIVER
+817370.5,steering_throttle_brake:irq_raise,END_RESP,tile32,,IRQ_RAISE
+817373.0,steering_throttle_brake:irq_deliver,BEGIN_RESP,tile0,,IRQ_DELIVER
+817373.0,steering_throttle_brake:irq_deliver,END_REQ,tile0,,IRQ_DELIVER
+817373.0,steering_throttle_brake:irq_deliver,REQ_LOCAL,tile0,,16 B
+817375.0,steering_throttle_brake:irq_deliver,END_RESP,tile0,,IRQ_DELIVER
+817375.0,steering_throttle_brake:irq_deliver,RESP_LOCAL,tile0,,16 B

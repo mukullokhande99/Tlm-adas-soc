@@ -59,6 +59,14 @@ class TestPlatform(unittest.TestCase):
         self.assertGreater(modules["plic"]["transactions"], 0)
         self.assertGreater(modules["coherence_manager"]["transactions"], 0)
 
+    def test_adas_workload_suite_runs(self):
+        scenario = CFG["scenarios"]["adas_front_perception"]
+        scoped = {**CFG, "tiles": {**CFG["tiles"], **scenario["tile_override"]}}
+        report = ATSoCSimulator(scoped).run("adas_front", parse_jobs(scenario["jobs"]))
+        self.assertEqual(len(report.jobs), 7)
+        self.assertGreater(report.makespan_ns, 0)
+        self.assertTrue(any(job.accelerator == "isp0" for job in report.jobs))
+
 
 if __name__ == "__main__":
     unittest.main()

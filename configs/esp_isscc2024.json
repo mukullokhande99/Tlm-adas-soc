@@ -22,7 +22,7 @@
       "ad": 12, "viterbi0": 14, "viterbi1": 15, "popcount0": 17,
       "sha": 18, "rsa": 20, "gps": 21, "vision0": 23,
       "vision1": 24, "nlp0": 26, "nlp1": 27, "nlp2": 29,
-      "nlp3": 31, "matrix": 32, "crypto": 33
+      "nlp3": 31, "matrix": 32, "crypto": 33, "isp0": 34
     }
   },
   "memory": {
@@ -64,7 +64,8 @@
     "nlp2": {"ops_per_cycle": 128, "power_tokens": 12, "power_nw_per_token": 150000000},
     "nlp3": {"ops_per_cycle": 128, "power_tokens": 12, "power_nw_per_token": 150000000},
     "matrix": {"ops_per_cycle": 128, "power_tokens": 12, "power_nw_per_token": 130000000},
-    "crypto": {"ops_per_cycle": 64, "power_tokens": 8, "power_nw_per_token": 70000000}
+    "crypto": {"ops_per_cycle": 64, "power_tokens": 8, "power_nw_per_token": 70000000},
+    "isp0": {"ops_per_cycle": 128, "power_tokens": 8, "power_nw_per_token": 70000000}
   },
   "assumption_ledger": [
     "The ISSCC paper publishes topology and aggregate results, not router RTL, exact protocol timing, or full workload traces.",
@@ -109,6 +110,62 @@
         {"name": "vision", "accelerator": "vision0", "release_ns": 400, "input_bytes": 262144, "output_bytes": 32768, "ops": 30000000, "mode": "coherent_dma"},
         {"name": "crypto", "accelerator": "crypto", "release_ns": 600, "input_bytes": 262144, "output_bytes": 262144, "ops": 16000000, "mode": "coherent_dma"},
         {"name": "viterbi", "accelerator": "viterbi0", "release_ns": 800, "input_bytes": 131072, "output_bytes": 16384, "ops": 12000000, "mode": "coherent_dma"}
+      ]
+    },
+    "adas_front_perception": {
+      "tile_override": {"llc_tiles": [7, 10, 25], "spad_tiles": [13, 16, 19, 22]},
+      "jobs": [
+        {"name": "front_isp", "accelerator": "isp0", "release_ns": 0, "input_bytes": 3456000, "output_bytes": 1228800, "ops": 18000000, "mode": "non_coherent_dma"},
+        {"name": "vehicle_pedestrian_detect", "accelerator": "nvdla0", "release_ns": 0, "input_bytes": 1228800, "output_bytes": 131072, "ops": 75000000, "mode": "spad", "depends_on": "front_isp"},
+        {"name": "lane_segmentation", "accelerator": "vision0", "release_ns": 0, "input_bytes": 1228800, "output_bytes": 262144, "ops": 42000000, "mode": "spad", "depends_on": "front_isp"},
+        {"name": "traffic_sign_classify", "accelerator": "nvdla1", "release_ns": 0, "input_bytes": 786432, "output_bytes": 16384, "ops": 18000000, "mode": "coherent_dma", "depends_on": "front_isp"},
+        {"name": "object_tracking", "accelerator": "ad", "release_ns": 0, "input_bytes": 131072, "output_bytes": 32768, "ops": 9000000, "mode": "coherent_dma", "depends_on": "vehicle_pedestrian_detect"},
+        {"name": "localization_ekf", "accelerator": "gps", "release_ns": 0, "input_bytes": 65536, "output_bytes": 16384, "ops": 5000000, "mode": "coherent_dma", "depends_on": "object_tracking"},
+        {"name": "collision_risk", "accelerator": "matrix", "release_ns": 0, "input_bytes": 65536, "output_bytes": 4096, "ops": 12000000, "mode": "coherent_dma_l2_flush", "depends_on": "localization_ekf"}
+      ]
+    },
+    "adas_driver_monitoring": {
+      "tile_override": {"llc_tiles": [7, 10, 25], "spad_tiles": [13, 16, 19, 22]},
+      "jobs": [
+        {"name": "nir_isp", "accelerator": "isp0", "release_ns": 0, "input_bytes": 921600, "output_bytes": 307200, "ops": 8000000, "mode": "spad"},
+        {"name": "face_detect", "accelerator": "vision1", "release_ns": 0, "input_bytes": 307200, "output_bytes": 32768, "ops": 16000000, "mode": "spad", "depends_on": "nir_isp"},
+        {"name": "head_pose", "accelerator": "vision1", "release_ns": 0, "input_bytes": 65536, "output_bytes": 1024, "ops": 7000000, "mode": "spad", "depends_on": "face_detect"},
+        {"name": "eye_gaze_blink", "accelerator": "nlp0", "release_ns": 0, "input_bytes": 32768, "output_bytes": 1024, "ops": 6000000, "mode": "coherent_dma", "depends_on": "face_detect"},
+        {"name": "hand_tracking", "accelerator": "ad", "release_ns": 0, "input_bytes": 307200, "output_bytes": 8192, "ops": 10000000, "mode": "spad", "depends_on": "nir_isp"},
+        {"name": "driver_state", "accelerator": "nvdla0", "release_ns": 0, "input_bytes": 16384, "output_bytes": 1024, "ops": 9000000, "mode": "coherent_dma", "depends_on": "eye_gaze_blink"},
+        {"name": "attention_alert", "accelerator": "matrix", "release_ns": 0, "input_bytes": 4096, "output_bytes": 256, "ops": 1000000, "mode": "coherent_dma_l2_flush", "depends_on": "driver_state"}
+      ]
+    },
+    "adas_surround_fusion": {
+      "tile_override": {"llc_tiles": [7, 10, 25], "spad_tiles": [13, 16, 19, 22]},
+      "jobs": [
+        {"name": "front_isp", "accelerator": "isp0", "release_ns": 0, "input_bytes": 3456000, "output_bytes": 1228800, "ops": 18000000, "mode": "non_coherent_dma"},
+        {"name": "front_detect", "accelerator": "nvdla0", "release_ns": 0, "input_bytes": 1228800, "output_bytes": 131072, "ops": 75000000, "mode": "spad", "depends_on": "front_isp"},
+        {"name": "side_detect", "accelerator": "nvdla1", "release_ns": 100, "input_bytes": 921600, "output_bytes": 98304, "ops": 55000000, "mode": "spad"},
+        {"name": "radar_fft", "accelerator": "fft0", "release_ns": 0, "input_bytes": 524288, "output_bytes": 65536, "ops": 14000000, "mode": "coherent_dma"},
+        {"name": "imu_visual_ekf", "accelerator": "gps", "release_ns": 0, "input_bytes": 131072, "output_bytes": 16384, "ops": 8000000, "mode": "coherent_dma"},
+        {"name": "bev_fusion", "accelerator": "matrix", "release_ns": 0, "input_bytes": 262144, "output_bytes": 65536, "ops": 45000000, "mode": "coherent_dma_l2_flush", "depends_on": "front_detect"},
+        {"name": "world_tracking", "accelerator": "ad", "release_ns": 0, "input_bytes": 65536, "output_bytes": 8192, "ops": 12000000, "mode": "coherent_dma", "depends_on": "bev_fusion"},
+        {"name": "hazard_decision", "accelerator": "vision0", "release_ns": 0, "input_bytes": 16384, "output_bytes": 1024, "ops": 4000000, "mode": "coherent_dma_l2_flush", "depends_on": "world_tracking"}
+      ]
+    },
+    "adas_pilotnet_control": {
+      "tile_override": {"llc_tiles": [7, 10, 25], "spad_tiles": [13, 16, 19, 22]},
+      "jobs": [
+        {"name": "control_isp", "accelerator": "isp0", "release_ns": 0, "input_bytes": 1382400, "output_bytes": 460800, "ops": 10000000, "mode": "spad"},
+        {"name": "pilotnet_inference", "accelerator": "nvdla0", "release_ns": 0, "input_bytes": 460800, "output_bytes": 4096, "ops": 24000000, "mode": "spad", "depends_on": "control_isp"},
+        {"name": "lane_geometry", "accelerator": "vision0", "release_ns": 0, "input_bytes": 460800, "output_bytes": 8192, "ops": 14000000, "mode": "spad", "depends_on": "control_isp"},
+        {"name": "steering_throttle_brake", "accelerator": "matrix", "release_ns": 0, "input_bytes": 8192, "output_bytes": 256, "ops": 1200000, "mode": "coherent_dma_l2_flush", "depends_on": "pilotnet_inference"}
+      ]
+    },
+    "adas_event_hazard": {
+      "tile_override": {"llc_tiles": [7, 10, 25], "spad_tiles": [13, 16, 19, 22]},
+      "jobs": [
+        {"name": "event_denoise", "accelerator": "vision1", "release_ns": 0, "input_bytes": 262144, "output_bytes": 131072, "ops": 12000000, "mode": "spad"},
+        {"name": "event_object_detect", "accelerator": "nvdla1", "release_ns": 0, "input_bytes": 131072, "output_bytes": 32768, "ops": 28000000, "mode": "spad", "depends_on": "event_denoise"},
+        {"name": "event_lane", "accelerator": "vision0", "release_ns": 0, "input_bytes": 131072, "output_bytes": 32768, "ops": 18000000, "mode": "spad", "depends_on": "event_denoise"},
+        {"name": "temporal_tracking", "accelerator": "ad", "release_ns": 0, "input_bytes": 32768, "output_bytes": 8192, "ops": 7000000, "mode": "coherent_dma", "depends_on": "event_object_detect"},
+        {"name": "hazard_alert", "accelerator": "matrix", "release_ns": 0, "input_bytes": 8192, "output_bytes": 256, "ops": 900000, "mode": "coherent_dma_l2_flush", "depends_on": "temporal_tracking"}
       ]
     }
   }
